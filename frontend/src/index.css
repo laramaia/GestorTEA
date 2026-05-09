@@ -19,10 +19,12 @@
   --border-radius-sm: 4px;
 }
 
+
 * {
-  box-sizing: border-box;
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
 }
 
 body {
@@ -51,7 +53,6 @@ a {
   color: inherit;
 }
 
-/* Scrollbar styling */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
