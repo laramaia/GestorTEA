@@ -1,0 +1,348 @@
+.patient_detail_modal {
+  background-color: #0f101a;
+  border-radius: var(--border-radius-lg);
+  width: 900px;
+  max-width: 95vw;
+  height: 600px;
+  display: flex;
+  position: relative;
+  overflow: hidden;
+}
+
+.detail_layout {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+.modal_overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.profile_sidebar {
+  width: 300px;
+  background-color: var(--panel-bg);
+  padding: 40px 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  height: 100%;
+  border-top-left-radius: var(--border-radius-lg);
+  border-bottom-left-radius: var(--border-radius-lg);
+}
+
+.profile_large_avatar {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 24px;
+  border: 4px solid var(--border-color);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.profile_name {
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.profile_desc {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.4;
+  margin-bottom: 24px;
+}
+
+.profile_info_group {
+  margin-bottom: 16px;
+  width: 100%;
+}
+
+.profile_info_group h4 {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 4px;
+  color: var(--text-primary);
+}
+
+.profile_info_group p {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.edit_profile_btn {
+  margin-top: auto;
+  background-color: var(--accent-color);
+  color: white;
+  width: 100%;
+  padding: 12px;
+  border-radius: var(--border-radius-sm);
+  font-weight: 600;
+  font-size: 14px;
+  transition: background-color 0.2s;
+}
+
+.edit_profile_btn:hover {
+  background-color: var(--accent-hover);
+}
+
+.detail_content {
+  flex: 1;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+}
+
+.tabs {
+  display: flex;
+  border-bottom: 2px solid var(--border-color);
+  margin-bottom: 90px;
+}
+
+.tab_btn {
+  flex: 1;
+  padding: 16px;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  position: relative;
+  transition: color 0.2s;
+}
+
+.tab_btn:hover {
+  color: var(--text-primary);
+}
+
+.tab_btn.active {
+  color: var(--text-primary);
+}
+
+.tab_btn.active::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: white; 
+}
+
+.tab_content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.activity_level {
+  margin-bottom: 32px;
+}
+
+.activity_level h4,
+.goal_section h4,
+.progress_section h4,
+.chart_section h4 {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.activity_level p,
+.goal_section p {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.goal_section {
+  margin-bottom: 24px;
+}
+
+.action_footer {
+  margin-top: auto;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.start_activity_btn {
+  background-color: var(--accent-color);
+  color: white;
+  padding: 12px 24px;
+  border-radius: var(--border-radius-sm);
+  font-weight: 600;
+  font-size: 14px;
+  transition: background-color 0.2s;
+}
+
+.start_activity_btn:hover {
+  background-color: var(--accent-hover);
+}
+
+.desempenho_view {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.progress_section {
+  margin-bottom: 32px;
+}
+
+.large_progress_bar_container {
+  width: 100%;
+  height: 24px;
+  background-color: #d1d5db;
+  border-radius: var(--border-radius-sm);
+  position: relative;
+  overflow: hidden;
+}
+
+.large_progress_fill {
+  height: 100%;
+  background-color: var(--accent-color);
+  border-radius: var(--border-radius-sm) 0 0 var(--border-radius-sm);
+}
+
+.large_progress_text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 12px;
+  font-weight: 600;
+  color: white;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.chart_section {
+  flex: 1;
+}
+
+.chart_mockup {
+  background-color: var(--panel-bg);
+  border-radius: var(--border-radius-md);
+  padding: 20px;
+  height: 220px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  width: 350px;
+}
+
+.chart_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 16px;
+}
+
+.chart_header svg {
+  color: var(--text-secondary);
+}
+
+.chart_area {
+  flex: 1;
+  position: relative;
+  background-image: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0.05) 1px,
+    transparent 1px
+  );
+  background-size: 20% 100%;
+}
+
+.chart_svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.chart_tooltip {
+  position: absolute;
+  background-color: white;
+  color: black;
+  border-radius: var(--border-radius-sm);
+  padding: 8px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.chart_tooltip::after {
+  content: "";
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 6px 6px 0;
+  border-style: solid;
+  border-color: white transparent transparent transparent;
+}
+
+.chart_tooltip strong {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.chart_tooltip span {
+  font-size: 12px;
+  color: #666;
+}
+
+.chart_axis {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 12px;
+  color: var(--text-secondary);
+  font-size: 12px;
+}
+.patient_detail_modal {
+  position: relative;
+  background-color: #1a1a2e;
+  border-radius: 12px;
+  width: 900px;
+  max-width: 95vw;
+  height: 600px;
+  display: flex;
+  overflow: hidden;
+}
+
+.close_btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  background-color: rgba(255, 255, 255, 0.05);
+  color: #a0a0b0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  outline: none;
+}
+
+.close_btn:hover {
+  background-color: rgba(255, 68, 68, 0.2);
+  color: #ff4444;
+  transform: rotate(90deg);
+}
+
+.close_btn:active {
+  transform: scale(0.9);
+}
