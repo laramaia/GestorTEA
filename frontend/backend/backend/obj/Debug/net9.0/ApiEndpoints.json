@@ -1,0 +1,190 @@
+[
+  {
+    "ContainingType": "backend.Controllers.ClinicaController",
+    "Method": "Index",
+    "RelativePath": "api/Clinica",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "backend.Controllers.FaseController",
+    "Method": "CriarFase",
+    "RelativePath": "api/Fase/inserir",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "fase",
+        "Type": "backend.Models.Fase",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "backend.Controllers.FaseController",
+    "Method": "ListarFases",
+    "RelativePath": "api/Fase/listar",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "backend.Controllers.JogoController",
+    "Method": "FinalizarFase",
+    "RelativePath": "api/Jogo/finalizar",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "resultado",
+        "Type": "backend.Models.ProgressoJogo",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "backend.Controllers.JogoController",
+    "Method": "IniciarFase",
+    "RelativePath": "api/Jogo/iniciar/{pacienteId}/{faseId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "pacienteId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "faseId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "backend.Controllers.OpcaoController",
+    "Method": "AtualizarOpcao",
+    "RelativePath": "api/Opcao/atualizar/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "opcaoAtualizada",
+        "Type": "backend.Models.Opcao",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "backend.Controllers.OpcaoController",
+    "Method": "DeletarOpcao",
+    "RelativePath": "api/Opcao/deletar/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "backend.Controllers.OpcaoController",
+    "Method": "ListarTodas",
+    "RelativePath": "api/Opcao/listar",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "backend.Controllers.PacienteController",
+    "Method": "CriarPaciente",
+    "RelativePath": "api/Paciente/inserir",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "paciente",
+        "Type": "backend.Models.Paciente",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "backend.Controllers.PacienteController",
+    "Method": "ListarPacientes",
+    "RelativePath": "api/Paciente/listar",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "backend.Controllers.TerapeutaController",
+    "Method": "DeletarTerapeuta",
+    "RelativePath": "api/Terapeuta/deletar/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "backend.Controllers.TerapeutaController",
+    "Method": "CriarTerapeuta",
+    "RelativePath": "api/Terapeuta/inserir",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "terapeuta",
+        "Type": "backend.Models.Terapeuta",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "backend.Controllers.TerapeutaController",
+    "Method": "ListarTerapeuta",
+    "RelativePath": "api/Terapeuta/listar",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  }
+]

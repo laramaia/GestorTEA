@@ -1,0 +1,130 @@
+.modal_overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(9, 9, 14, 0.8); 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.add_patient_modal {
+  background-color: #0f101a; 
+  border-radius: var(--border-radius-lg);
+  width: 800px;
+  max-width: 90vw;
+  padding: 40px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.close_btn {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  color: var(--text-primary);
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.modal_title {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 32px;
+}
+
+.modal_content {
+  display: flex;
+  gap: 64px;
+}
+
+.patient_form {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form_group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form_group label {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.form_group input {
+  background-color: #1e1f32; 
+  border: none;
+  border-radius: var(--border-radius-md);
+  padding: 12px;
+  color: var(--text-primary);
+  height: 44px;
+  outline: none;
+}
+
+.form_group input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  opacity: 0.5;
+  cursor: pointer;
+}
+
+.photo_upload_section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 250px;
+}
+
+.photo_label {
+  font-size: 16px;
+  margin-bottom: 24px;
+  font-weight: 500;
+}
+
+.photo_placeholder {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background-color: #1e1f32;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #0f101a;
+}
+
+.photo_placeholder svg {
+  color: #0f101a; 
+}
+
+
+.modal_footer {
+  display: flex;
+  justify-content: center;
+  margin-top: 48px;
+}
+
+.submit_btn {
+  background-color: var(--accent-color);
+  color: white;
+  padding: 14px 32px;
+  font-size: 16px;
+  border-radius: var(--border-radius-sm);
+  font-weight: 600;
+  transition: background-color 0.2s;
+  width: 100%;
+  max-width: 300px;
+}
+
+.submit_btn:hover {
+  background-color: var(--accent-hover);
+}

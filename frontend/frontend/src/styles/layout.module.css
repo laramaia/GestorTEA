@@ -1,0 +1,12 @@
+.container {
+  display: flex;
+}
+
+.content {
+  flex: 1;
+  background: #1B1B2F;
+  padding: 32px;
+  color: #fff;
+  height: 100vh;
+  overflow-y: auto;
+}

@@ -1,0 +1,488 @@
+{
+  "openapi": "3.0.4",
+  "info": {
+    "title": "backend",
+    "version": "1.0"
+  },
+  "paths": {
+    "/api/Clinica": {
+      "get": {
+        "tags": [
+          "Clinica"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Fase/inserir": {
+      "post": {
+        "tags": [
+          "Fase"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Fase"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Fase"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Fase"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Fase/listar": {
+      "get": {
+        "tags": [
+          "Fase"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Jogo/iniciar/{pacienteId}/{faseId}": {
+      "get": {
+        "tags": [
+          "Jogo"
+        ],
+        "parameters": [
+          {
+            "name": "pacienteId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "faseId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Jogo/finalizar": {
+      "post": {
+        "tags": [
+          "Jogo"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProgressoJogo"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProgressoJogo"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProgressoJogo"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Opcao/listar": {
+      "get": {
+        "tags": [
+          "Opcao"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Opcao/atualizar/{id}": {
+      "put": {
+        "tags": [
+          "Opcao"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Opcao"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Opcao"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Opcao"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Opcao/deletar/{id}": {
+      "delete": {
+        "tags": [
+          "Opcao"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Paciente/inserir": {
+      "post": {
+        "tags": [
+          "Paciente"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Paciente"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Paciente"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Paciente"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Paciente/listar": {
+      "get": {
+        "tags": [
+          "Paciente"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Terapeuta/inserir": {
+      "post": {
+        "tags": [
+          "Terapeuta"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Terapeuta"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Terapeuta"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Terapeuta"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Terapeuta/listar": {
+      "get": {
+        "tags": [
+          "Terapeuta"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Terapeuta/deletar/{id}": {
+      "delete": {
+        "tags": [
+          "Terapeuta"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Fase": {
+        "type": "object",
+        "properties": {
+          "faseId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "ordem": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nome": {
+            "type": "string",
+            "nullable": true
+          },
+          "enunciado": {
+            "type": "string",
+            "nullable": true
+          },
+          "opcoes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Opcao"
+            },
+            "nullable": true
+          },
+          "totalEstrelas": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "estrelasParaAvancar": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Opcao": {
+        "type": "object",
+        "properties": {
+          "opcaoId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "texto": {
+            "type": "string",
+            "nullable": true
+          },
+          "ehCorreta": {
+            "type": "boolean"
+          },
+          "faseId": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Paciente": {
+        "required": [
+          "dataNascimento",
+          "nomeCompleto"
+        ],
+        "type": "object",
+        "properties": {
+          "pacienteId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nomeCompleto": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "sexo": {
+            "type": "string",
+            "nullable": true
+          },
+          "cpf": {
+            "type": "string",
+            "nullable": true
+          },
+          "endereco": {
+            "type": "string",
+            "nullable": true
+          },
+          "dataNascimento": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "criadoEm": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "atualizadoEm": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProgressoJogo": {
+        "type": "object",
+        "properties": {
+          "progressoJogoId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pacienteId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "paciente": {
+            "$ref": "#/components/schemas/Paciente"
+          },
+          "faseId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "fase": {
+            "$ref": "#/components/schemas/Fase"
+          },
+          "estrelasGanhas": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "dataConclusao": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Terapeuta": {
+        "required": [
+          "ativo",
+          "especializacao",
+          "nomeCompleto",
+          "numeroLicenca"
+        ],
+        "type": "object",
+        "properties": {
+          "terapeutaId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nomeCompleto": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "numeroLicenca": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "especializacao": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "numeroCelular": {
+            "type": "string",
+            "nullable": true
+          },
+          "ativo": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}

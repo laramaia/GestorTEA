@@ -1,0 +1,165 @@
+.modal_overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.patient_detail_modal {
+  background: #13131a;
+  width: 90%;
+  max-width: 950px;
+  height: 600px;
+  border-radius: 20px;
+  position: relative;
+  overflow: hidden;
+  color: white;
+}
+
+.close_btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.detail_layout {
+  display: flex;
+  height: 100%;
+}
+
+/* Sidebar Azulada */
+.profile_sidebar {
+  width: 320px;
+  background: #23243a; /* Tom azulado da imagem */
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  border-radius: 0 40px 40px 0; /* Curva interna da imagem */
+}
+
+.profile_large_avatar {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid white;
+}
+
+.profile_name { margin: 15px 0 5px; font-size: 1.5rem; }
+.profile_description { color: #b2b3bd; font-size: 0.85rem; margin-bottom: 25px; }
+
+.profile_info_group {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.profile_info_group h4 { color: white; font-size: 0.9rem; margin-bottom: 4px; }
+.profile_info_group p { color: #b2b3bd; font-size: 0.85rem; }
+
+.edit_profile_btn {
+  margin-top: auto;
+  background: #5a4bd1;
+  border: none;
+  color: white;
+  padding: 10px 30px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+/* Conteúdo Direita */
+.detail_content {
+  flex: 1;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+}
+
+.tabs_nav {
+  display: flex;
+  gap: 40px;
+  border-bottom: 2px solid #2d2d3a;
+  margin-bottom: 30px;
+}
+
+.tabs_nav button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.1rem;
+  padding-bottom: 10px;
+  cursor: pointer;
+  position: relative;
+}
+
+.tab_active::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: white;
+}
+
+.info_section { margin-bottom: 20px; }
+.info_section h4 { font-size: 0.95rem; margin-bottom: 8px; }
+.info_section p { color: #808191; font-size: 0.9rem; line-height: 1.5; }
+
+.progress_bar_large {
+  background: #2d2d3a;
+  height: 25px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.progress_fill_large {
+  background: #5a4bd1;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+.chart_placeholder {
+  background: #1c1c24;
+  height: 180px;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #2d2d3a;
+}
+
+.action_footer { margin-top: auto; text-align: right; }
+.primary_btn {
+  background: #5a4bd1;
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* Animação simples de troca */
+.content_animate {
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
