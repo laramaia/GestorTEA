@@ -1,12 +1,12 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout/layout";
 import Login from "./pages/Usuarios/Login";
-import Cadastro from "./pages/Usuarios/Register";
-import Paciente from "./pages/Paciente/ListPatientPage";
+import Cadastro from "./pages/Usuarios/Cadastro";
+import Paciente from "./pages/Paciente/ListPatient/ListPatientPage";
 import Dashboard from "./pages/Dashboard";
 import Terapeuta from "./pages/Terapeuta/ListTherapistPage";
-import CreatePatientPage from "./pages/Paciente/CreatePatientPage";
-import DetailsPatientPage from "./pages/Paciente/DetailsPatientPage";
+import CreatePatientPage from "./pages/Paciente/CreatePatient/CreatePatientPage";
+import DetailsPatientPage from "./pages/Paciente/DetailsPatient/DetailsPatientPage";
 import Game from "./pages/Game/Game";
 
 function App() {

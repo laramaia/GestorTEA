@@ -1,9 +1,10 @@
 import { useState, type ChangeEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Input from "../../components/Input/input";
-import Button from "../../components/Button/button";
-import api from "../../services/api";
-import styles from "../../styles/login.module.css";
+import Input from "../../../components/Input/input";
+import Button from "../../../components/Button/button";
+import api from "../../../services/api";
+import styles from "../Login/login.module.css";
+import { FiMail, FiLock } from "react-icons/fi";
 
 interface LoginResponse {
   token: string;
@@ -38,14 +39,15 @@ function Login() {
 
   return (
     <div className={styles.authContainer}>
-      <h1 className={styles.title}>Login</h1>
+      <div className={styles.card}>
+      <h1 className={styles.title}>Entrar</h1>
 
       <form onSubmit={handleLogin} className={styles.form}>
         <Input
-          label="Email"
+          icon={<FiMail className={styles.icon} />}
           name="email"
           type="email"
-          placeholder="Digite seu email"
+          placeholder="E-mail"
           value={email}
           onChange={(e: ChangeEvent<HTMLInputElement>) =>
             setEmail(e.target.value)
@@ -54,10 +56,10 @@ function Login() {
         />
 
         <Input
-          label="Senha"
+          icon={<FiLock className={styles.icon} />}
           name="senha"
           type="password"
-          placeholder="Digite sua senha"
+          placeholder="Senha"
           value={senha}
           onChange={(e: ChangeEvent<HTMLInputElement>) =>
             setSenha(e.target.value)
@@ -66,16 +68,14 @@ function Login() {
         />
 
         {erro && <p className={styles.erro}>{erro}</p>}
-
-        <Button texto="Entrar" onClick={() => navigate("/dashboard")}/>
+        <p className={styles.link}>
+        Esqueceu sua senha? <span><Link to="/register" className={styles.link_span}>Clique aqui</Link></span>
+        </p>
+        <Button onClick={() => navigate("/dashboard")}>
+          {"Entrar"}
+        </Button>
       </form>
-
-      <p className={styles.link}>
-        Não tem conta?{" "}
-        <span>
-          <Link to="/register">Cadastre-se</Link>
-        </span>
-      </p>
+    </div>
     </div>
   );
 }

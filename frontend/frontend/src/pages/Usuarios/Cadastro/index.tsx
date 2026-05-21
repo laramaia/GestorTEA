@@ -1,9 +1,10 @@
 import { useState, type ChangeEvent, type FormEvent } from "react";
 import { Link } from "react-router-dom";
-import Input from "../../components/Input/input";
-import Button from "../../components/Button/button";
-import api from "../../services/api";
-import styles from "../../styles/cadastro.module.css";
+import Input from "../../../components/Input/input";
+import Button from "../../../components/Button/button";
+import api from "../../../services/api";
+import styles from "../Cadastro/cadastro.module.css";
+import {FiFileText,FiAward,FiUser,FiMail,FiPhone} from "react-icons/fi";
 
 interface TerapeutaForm {
   NomeCompleto: string;
@@ -62,20 +63,21 @@ function CadastroTerapeuta() {
 
   return (
     <div className={styles.authContainer}>
-      <h1 className={styles.title}>Cadastro de Terapeuta</h1>
+      <div className={styles.card}>
+      <h1 className={styles.title}>Cadastra-se</h1>
 
       <form onSubmit={handleSubmit} className={styles.form}>
         <Input
-          label="Nome completo"
+          icon={<FiUser className={styles.icon}/>}
           name="NomeCompleto"
           value={form.NomeCompleto}
-          placeholder="Digite seu nome"
+          placeholder="Nome Completo"
           onChange={handleChange}
           required
         />
 
         <Input
-          label="Número de Licença"
+          icon={<FiFileText  className={styles.icon}/>}
           name="NumeroLicenca"
           value={form.NumeroLicenca}
           placeholder="CRP / Registro"
@@ -84,28 +86,28 @@ function CadastroTerapeuta() {
         />
 
         <Input
-          label="Especialização"
+          icon={<FiAward className={styles.icon}/>}
           name="Especializacao"
           value={form.Especializacao}
-          placeholder="Ex: Psicologia Infantil"
+          placeholder="Especialização"
           onChange={handleChange}
           required
         />
 
         <Input
-          label="Email"
+          icon={<FiMail className={styles.icon}/>}
           name="Email"
           type="email"
           value={form.Email}
-          placeholder="Digite seu email"
+          placeholder="E-mail"
           onChange={handleChange}
         />
 
         <Input
-          label="Telefone"
+          icon={<FiPhone className={styles.icon}/>}
           name="NumeroCelular"
           value={form.NumeroCelular}
-          placeholder="Digite seu telefone"
+          placeholder="Telefone"
           onChange={handleChange}
         />
 
@@ -123,17 +125,17 @@ function CadastroTerapeuta() {
           <label htmlFor="termos">Concordo com os Termos</label>
         </div>
 
-        <Button texto="Cadastrar" />
+        <Button type="submit">
+          {"Cadastrar"}
+        </Button>
       </form>
 
       <p className={styles.link}>
-        Já possui conta?{" "}
-        <span>
-          <Link to="/">Entrar</Link>
-        </span>
+        Já possui cadastro? <span><Link to="/" className={styles.link_span}>Entrar</Link></span>
       </p>
 
       {mensagem && <p className={styles.mensagem}>{mensagem}</p>}
+    </div>
     </div>
   );
 }

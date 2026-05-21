@@ -1,7 +1,7 @@
 .button {
   width: 100%;
   padding: 14px 0;
-  background: #6c4bff;
+  background: var(--button-color);
   border: none;
   border-radius: 12px;
   font-size: 18px;
@@ -13,5 +13,5 @@
 }
 
 .button:hover {
-  background: #7a5bfd;
+  background: var(--button-efeito);
 }

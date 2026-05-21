@@ -1,35 +1,44 @@
 .authContainer {
-  width: 460px;
-  padding: 35px;
-  background: #0e1126;
-  border-radius: 25px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
-  margin: auto;
-  margin-top: 50px;
-  color: white;
+  width: 100%;
+  padding: 20px;
+  background-color: var(--background-color);
+}
+.card {
+  width: 100%;
+   max-width: var(--card-width-cadastro);
+  min-height: var(--card-height-cadastro);
+  max-width: 480px;
+  padding: 46px;
+  background: var(--card-color);
+  border-radius: 25px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
   position: relative;
   animation: fadeIn 0.5s ease-in-out;
 }
 
-.authContainer::after {
+.card::after {
   content: "";
   position: absolute;
   bottom: -25px;
+  left: 50%;
+  transform: translateX(-50%);
   width: 80%;
   height: 40px;
-  background: rgba(78, 51, 230, 0.4);
+  background: var(--card-color);
   filter: blur(30px);
   border-radius: 50%;
 }
-
 .title {
   font-size: 28px;
   font-weight: 700;
   margin-bottom: 25px;
   text-align: center;
+  color: var(--text-color);
 }
 
 .form {
@@ -52,17 +61,26 @@
 
 .link {
   margin-top: 10px;
-  color: #ccc;
+  color: var(--text-color);
   text-align: center;
 }
 
-.link span {
-  color: #7a5bfd;
+.link_span {
+  color: var(--text-color);
   cursor: pointer;
+  transition: 0.3s;
+  text-decoration: none;
+  font-weight: 600;
 }
 
-.link span:hover {
-  color: #a48cff;
+.link_span:hover {
+  color: var(--text-color);
+}
+
+.icon {
+  color: var(--text-color);
+  width: 20px;
+  height: 30px;
 }
 
 .mensagem {
@@ -79,6 +97,7 @@
   display: flex;
   align-items: flex-start;
   gap: 10px;
+  color: var(--text-color);
   margin-top: 10px;
   padding: 8px 0;
 }
@@ -86,14 +105,14 @@
 .checkbox {
   width: 18px;
   height: 18px;
-  accent-color: #6b4eff; /* sua cor lilás */
+  accent-color: #6b4eff; 
   margin-top: -1px;
   cursor: pointer;
 }
 
 .termosTexto {
   font-size: 12px;
-  color: #666;
+  color: var(--text-color);
   line-height: 1.3;
 }
 

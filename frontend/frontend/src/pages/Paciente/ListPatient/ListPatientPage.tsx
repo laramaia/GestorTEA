@@ -5,9 +5,9 @@ import {
   FiChevronLeft,
   FiChevronRight,
 } from "react-icons/fi";
-import { usePatients } from "../../hooks/usePatient";
-import Input from "../../components/Input/input";
-import styles from "../../styles/listPatient.module.css";
+import { usePatients } from "../../../hooks/usePatient";
+import Input from "../../../components/Input/input";
+import styles from "../ListPatient/listPatient.module.css";
 
 export default function ListPatient() {
   const navigate = useNavigate();

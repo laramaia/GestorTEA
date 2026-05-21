@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { FiX } from "react-icons/fi";
-import styles from "../../styles/detailsPatient.module.css";
-import api from "../../services/api";
+import styles from "../DetailsPatient/detailsPatient.module.css";
+import api from "../../../services/api";
 
 interface PacienteDetalhe {
   pacienteId: number;

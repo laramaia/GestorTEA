@@ -7,17 +7,20 @@
 }
 
 .addBtn {
-  background-color: #6c5ce7;
-  color: white;
+  background-color: var(--button-color);
+  color: var(--text-color);
   border: none;
   padding: 0.8rem 1.5rem;
   border-radius: 8px;
   cursor: pointer;
   font-weight: 500;
 }
+.addBtn:hover {
+  background-color: var(--button-efeito);
+}
 
 .tableCard {
-  background-color: #2B2D4C;
+  background-color: var(--background-color-tertiary);
   border-radius: 12px;
   padding: 1.5rem;
 }
@@ -49,9 +52,9 @@
 }
 
 .selectFilter {
-  background-color: #2B2D4C;
-  color: white;
-  border: 1px solid #2B2D4C;
+  background-color: var(--background-color-tertiary);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
   padding: 8px 12px;
   border-radius: 8px;
   outline: none;
@@ -71,7 +74,7 @@
 }
 .table td {
   padding: 1rem;
-  background-color: #2B2D4C;
+  background-color: var(--background-color-tertiary);
   vertical-align: middle;
 }
 .table tr td:first-child {

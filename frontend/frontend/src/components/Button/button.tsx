@@ -1,15 +1,26 @@
-import style from "../../styles/button.module.css";
+import style from "../Button/button.module.css";
 
 interface ButtonProps {
-  texto: string;
+  children: React.ReactNode;
   type?: "button" | "submit" | "reset";
   onClick?: () => void;
+  disabled?: boolean;
 }
 
-function Button({ texto, type = "button", onClick }: ButtonProps) {
+function Button({
+  children,
+  type = "button",
+  onClick,
+  disabled,
+}: ButtonProps) {
   return (
-    <button className={style.button} type={type} onClick={onClick}>
-      {texto}
+    <button
+      className={style.button}
+      type={type}
+      onClick={onClick}
+      disabled={disabled}
+    >
+      {children}
     </button>
   );
 }

@@ -1,9 +1,9 @@
 import { FiHome, FiUsers, FiUserCheck, FiSearch } from "react-icons/fi";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import SidebarItem from "./sideBarItem";
+import SidebarItem from "./SideBarItem/sideBarItem";
 import Input from "../Input/input";
-import styles from "../../styles/sideBar.module.css";
+import styles from "../SideBar/sideBar.module.css";
 
 export default function Sidebar() {
     const [search, setSearch] = useState("");

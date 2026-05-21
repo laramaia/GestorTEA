@@ -1,8 +1,9 @@
 import { useState, useRef, type ChangeEvent, type FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
-import styles from "../../styles/createPatient.module.css";
-import api from "../../services/api";
-import Input from "../../components/Input/input";
+import styles from "../CreatePatient/createPatient.module.css";
+import api from "../../../services/api";
+import Input from "../../../components/Input/input";
+import Button from "../../../components/Button/button";
 
 export default function CriarPacientes() {
   const navigate = useNavigate();
@@ -135,13 +136,9 @@ export default function CriarPacientes() {
             </div>
 
             <div className={styles.modal_footer}>
-              <button
-                className={styles.submit_btn}
-                type="submit"
-                disabled={loading}
-              >
+              <Button type="submit" disabled={loading}>
                 {loading ? "Cadastrando..." : "Adicionar paciente"}
-              </button>
+              </Button>
             </div>
           </form>
 

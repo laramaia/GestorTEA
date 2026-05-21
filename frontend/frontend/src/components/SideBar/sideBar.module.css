@@ -1,8 +1,8 @@
 .sidebar {
   width: 270px;
   height: 100vh;
-  background: #0D0E22;
-  color: #fff;
+  background: var(--sidebar-color);
+  color: var(--text-color);
   padding: 24px;
   display: flex;
   flex-direction: column;
@@ -23,7 +23,7 @@
 .item {
   display: flex;
   align-items: center;
-  padding: 12px;
+  padding: 20px;
   border-radius: 8px;
   gap: 8px;
   cursor: pointer;
@@ -32,13 +32,13 @@
 }
 
 .item:hover {
-  background: #5843D3;
-  color: #fff;
+  background: var(--button-color);
+  color: var(--text-color);
 }
 
 .active {
-  background: #5843D3;
-  color: #fff;
+  background: var(--button-efeito);
+  color: var(--text-color);
 }
 
 .icon {
@@ -51,17 +51,17 @@
   align-items: center;
   justify-content: center;
   gap: 1px;
-  background: #272542;
-  padding: 15px 10px;
-  color: #fff;
+  background: var( --button-logout-color);
+  padding: 18px 15px;
+  color: var(--text-color);
   border: none;
   border-radius: 8px;
   cursor: pointer;
 }
 
 .logout:hover{
-  background: #5843D3;
-  color: #fff;
+  background: var(--button-efeito);
+  color: var(--text-color);
 }
 .searchContainer {
   padding: 0rem;

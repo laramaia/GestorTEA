@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import style from "../../styles/input.module.css";
+import style from "../Input/input.module.css";
 
 interface InputProps {
   label?: string;
@@ -33,7 +33,7 @@ function Input({
           name={name}
           type={type}
           placeholder={placeholder}
-          className={icon ? style.inputWithIcon : ""}
+          className={`${style.input} ${icon ? style.inputWithIcon : ""}`}          
           value={value}
           onChange={onChange}
           required={required}

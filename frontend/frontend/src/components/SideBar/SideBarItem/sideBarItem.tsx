@@ -1,4 +1,4 @@
-import styles from "../../styles/sideBar.module.css";
+import styles from "../../SideBar/sideBar.module.css";
 
 interface Props {
   icon: React.ReactNode;

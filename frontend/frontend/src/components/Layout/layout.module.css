@@ -4,9 +4,9 @@
 
 .content {
   flex: 1;
-  background: #1B1B2F;
+  background: var(--background-color-secondary);
   padding: 32px;
-  color: #fff;
+  color: var(--text-color);
   height: 100vh;
   overflow-y: auto;
 }
