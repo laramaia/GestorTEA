@@ -134,12 +134,6 @@ export default function CriarPacientes() {
                 onChange={handleChange}
               />
             </div>
-
-            <div className={styles.modal_footer}>
-              <Button type="submit" disabled={loading}>
-                {loading ? "Cadastrando..." : "Adicionar paciente"}
-              </Button>
-            </div>
           </form>
 
           <div className={styles.photo_upload_section}>
@@ -176,6 +170,11 @@ export default function CriarPacientes() {
               )}
             </div>
           </div>
+        </div>
+        <div className={styles.modal_footer}>
+          <Button type="submit" disabled={loading}>
+            {loading ? "Cadastrando..." : "Adicionar paciente"}
+          </Button>
         </div>
       </div>
     </div>

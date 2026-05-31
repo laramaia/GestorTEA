@@ -17,15 +17,15 @@
 .nav {
   display: flex;
   flex-direction: column;
-  gap: 28px;
+  gap: 16px;
 }
 
 .item {
   display: flex;
   align-items: center;
-  padding: 20px;
+  padding: 15px;
   border-radius: 8px;
-  gap: 8px;
+  gap: 2px;
   cursor: pointer;
   transition: 0.2s;
   color: #c8c8c8;
@@ -51,7 +51,7 @@
   align-items: center;
   justify-content: center;
   gap: 1px;
-  background: var( --button-logout-color);
+  background: var(--button-logout-color);
   padding: 18px 15px;
   color: var(--text-color);
   border: none;
@@ -59,7 +59,7 @@
   cursor: pointer;
 }
 
-.logout:hover{
+.logout:hover {
   background: var(--button-efeito);
   color: var(--text-color);
 }
@@ -68,7 +68,7 @@
   margin-bottom: 5rem;
 }
 .searchContainer div {
-  margin-bottom: 0; 
+  margin-bottom: 0;
 }
 .searchContainer input {
   width: 100%;

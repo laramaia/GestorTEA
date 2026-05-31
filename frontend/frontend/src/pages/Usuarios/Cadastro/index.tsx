@@ -4,7 +4,9 @@ import Input from "../../../components/Input/input";
 import Button from "../../../components/Button/button";
 import api from "../../../services/api";
 import styles from "../Cadastro/cadastro.module.css";
-import {FiFileText,FiAward,FiUser,FiMail,FiPhone} from "react-icons/fi";
+import { FaUser, FaUserMd, FaPhoneAlt } from "react-icons/fa";
+import { MdEmail } from "react-icons/md";
+import { IoDocumentText } from "react-icons/io5";
 
 interface TerapeutaForm {
   NomeCompleto: string;
@@ -64,78 +66,79 @@ function CadastroTerapeuta() {
   return (
     <div className={styles.authContainer}>
       <div className={styles.card}>
-      <h1 className={styles.title}>Cadastra-se</h1>
+        <h1 className={styles.title}>Cadastra-se</h1>
 
-      <form onSubmit={handleSubmit} className={styles.form}>
-        <Input
-          icon={<FiUser className={styles.icon}/>}
-          name="NomeCompleto"
-          value={form.NomeCompleto}
-          placeholder="Nome Completo"
-          onChange={handleChange}
-          required
-        />
-
-        <Input
-          icon={<FiFileText  className={styles.icon}/>}
-          name="NumeroLicenca"
-          value={form.NumeroLicenca}
-          placeholder="CRP / Registro"
-          onChange={handleChange}
-          required
-        />
-
-        <Input
-          icon={<FiAward className={styles.icon}/>}
-          name="Especializacao"
-          value={form.Especializacao}
-          placeholder="Especialização"
-          onChange={handleChange}
-          required
-        />
-
-        <Input
-          icon={<FiMail className={styles.icon}/>}
-          name="Email"
-          type="email"
-          value={form.Email}
-          placeholder="E-mail"
-          onChange={handleChange}
-        />
-
-        <Input
-          icon={<FiPhone className={styles.icon}/>}
-          name="NumeroCelular"
-          value={form.NumeroCelular}
-          placeholder="Telefone"
-          onChange={handleChange}
-        />
-
-        <div className={styles.termosContainer}>
-          <input
-            type="checkbox"
-            id="termos"
-            className={styles.checkbox}
-            checked={form.Ativo}
-            onChange={(e) =>
-              setForm({ ...form, Ativo: e.target.checked })
-            }
+        <form onSubmit={handleSubmit} className={styles.form}>
+          <Input
+            icon={<FaUser className={styles.icon} />}
+            name="NomeCompleto"
+            value={form.NomeCompleto}
+            placeholder="Nome Completo"
+            onChange={handleChange}
             required
           />
-          <label htmlFor="termos">Concordo com os Termos</label>
-        </div>
 
-        <Button type="submit">
-          {"Cadastrar"}
-        </Button>
-      </form>
+          <Input
+            icon={<IoDocumentText className={styles.icon} />}
+            name="NumeroLicenca"
+            value={form.NumeroLicenca}
+            placeholder="CRP / Registro"
+            onChange={handleChange}
+            required
+          />
 
-      <p className={styles.link}>
-        Já possui cadastro? <span><Link to="/" className={styles.link_span}>Entrar</Link></span>
-      </p>
+          <Input
+            icon={<FaUserMd className={styles.icon} />}
+            name="Especializacao"
+            value={form.Especializacao}
+            placeholder="Especialização"
+            onChange={handleChange}
+            required
+          />
 
-      {mensagem && <p className={styles.mensagem}>{mensagem}</p>}
-    </div>
+          <Input
+            icon={<MdEmail className={styles.icon} />}
+            name="Email"
+            type="email"
+            value={form.Email}
+            placeholder="E-mail"
+            onChange={handleChange}
+          />
+
+          <Input
+            icon={<FaPhoneAlt className={styles.icon} />}
+            name="NumeroCelular"
+            value={form.NumeroCelular}
+            placeholder="Telefone"
+            onChange={handleChange}
+          />
+
+          <div className={styles.termosContainer}>
+            <input
+              type="checkbox"
+              id="termos"
+              className={styles.checkbox}
+              checked={form.Ativo}
+              onChange={(e) => setForm({ ...form, Ativo: e.target.checked })}
+              required
+            />
+            <label htmlFor="termos">Concordo com os Termos</label>
+          </div>
+
+          <Button type="submit">{"Cadastrar"}</Button>
+        </form>
+
+        <p className={styles.link}>
+          Já possui cadastro?{" "}
+          <span>
+            <Link to="/" className={styles.link_span}>
+              Entrar
+            </Link>
+          </span>
+        </p>
+
+        {mensagem && <p className={styles.mensagem}>{mensagem}</p>}
+      </div>
     </div>
   );
 }

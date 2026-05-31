@@ -9,10 +9,8 @@
   background-color: var(--background-color);
 }
 .card {
-  width: 100%;
-   max-width: var(--card-width-cadastro);
+  width: var(--card-width-cadastro);
   min-height: var(--card-height-cadastro);
-  max-width: 480px;
   padding: 46px;
   background: var(--card-color);
   border-radius: 25px;
@@ -105,7 +103,7 @@
 .checkbox {
   width: 18px;
   height: 18px;
-  accent-color: #6b4eff; 
+  accent-color: #6b4eff;
   margin-top: -1px;
   cursor: pointer;
 }

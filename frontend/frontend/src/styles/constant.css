@@ -1,20 +1,21 @@
 :root {
-  --background-color-quarternary: #0D0E22;
-  --background-color-tertiary: #2B2D4C;
-  --background-color-secondary: #1B1C30;
+  --background-color-quarternary: #0d0e22;
+  --background-color-tertiary: #2b2d4c;
+  --background-color-secondary: #1b1c30;
   --background-color: #333351;
   --sidebar-color: #0d0e22;
   --button-color: #5843d3;
   --button-efeito: #705ce2;
   --card-color: #1b1c30;
   --text-color: #ffffff;
-  --input-color: #2F3356;
+  --input-color-secondary: #23243D;
+  --input-color: #2f3356;
   --border-color: #e4e4e4a9;
-  --button-logout-color: #23243D;
+  --button-logout-color: #23243d;
 
-  --card-width-login: 400px;
-  --card-height-login: 420px;
+  --card-width-login: 480px;
+  --card-height-login: 400px;
 
-  --card-width-cadastro: 450px;
-  --card-height-cadastro: 420px;
+  --card-width-cadastro: 490px;
+  --card-height-cadastro: 400px;
 }

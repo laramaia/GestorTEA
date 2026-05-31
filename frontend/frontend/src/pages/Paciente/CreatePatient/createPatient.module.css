@@ -4,7 +4,6 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(9, 9, 14, 0.438); 
   display: flex;
   justify-content: center;
   align-items: center;
@@ -12,7 +11,7 @@
 }
 
 .add_patient_modal {
-  background-color: var(--background-color-quarternary); 
+  background-color: var(--background-color-quarternary);
   border-radius: var(--border-radius-lg);
   width: 800px;
   max-width: 90vw;
@@ -62,12 +61,8 @@
 }
 
 .form_group input {
-  background-color: #1e1f32; 
+  background-color: var(--input-color-secondary);
   border: none;
-  border-radius: var(--border-radius-md);
-  padding: 12px;
-  color: var(--text-primary);
-  height: 44px;
   outline: none;
 }
 
@@ -99,32 +94,28 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
   color: #0f101a;
 }
 
 .photo_placeholder svg {
-  color: #0f101a; 
+  color: #0f101a;
 }
 
+.preview_img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
 
 .modal_footer {
   display: flex;
   justify-content: center;
-  margin-top: 48px;
+  margin-top: 40px;
 }
 
-.submit_btn {
-  background-color: var(--accent-color);
-  color: white;
-  padding: 14px 32px;
-  font-size: 16px;
-  border-radius: var(--border-radius-sm);
-  font-weight: 600;
-  transition: background-color 0.2s;
-  width: 100%;
-  max-width: 300px;
-}
-
-.submit_btn:hover {
-  background-color: var(--accent-hover);
+.modal_footer button {
+  width: fit-content;
+  padding: 12px 32px;
 }

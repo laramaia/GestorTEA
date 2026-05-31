@@ -4,8 +4,6 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 100%;
-  padding: 20px;
   background-color: var(--background-color);
 }
 
@@ -37,12 +35,12 @@
 .form {
   display: flex;
   flex-direction: column;
-  gap: 35px;
+  gap: 25px;
   width: 100%;
 }
 
 .form button {
-  margin-top: 10px;
+  margin-top: 2px;
 }
 
 .title {
