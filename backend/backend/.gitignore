@@ -1,0 +1,13 @@
+
+## .NET Core / Visual Studio
+[Dd]ebug/
+[Rr]elease/
+[Bb]in/
+[Oo]bj/
+.vscode/
+*.user
+*.suo
+
+## Banco de dados e configurações locais
+.env
+appsettings.Development.json
