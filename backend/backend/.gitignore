@@ -1,13 +1,33 @@
-
-## .NET Core / Visual Studio
-[Dd]ebug/
-[Rr]elease/
-[Bb]in/
-[Oo]bj/
+## ===== Visual Studio / .NET =====
+.vs/
 .vscode/
+bin/
+obj/
 *.user
 *.suo
 
-## Banco de dados e configurações locais
+## ===== Node / Frontend =====
+node_modules/
+frontend/node_modules/
+backend/node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+dist/
+build/
+out/
+
+## caches (React/Webpack/Vite/Babel)
+.cache/
+.parcel-cache/
+
+## ===== Environment =====
 .env
+.env.local
+.env.*.local
 appsettings.Development.json
+
+## ===== OS =====
+.DS_Store
+Thumbs.db
