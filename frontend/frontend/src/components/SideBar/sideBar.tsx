@@ -39,6 +39,11 @@ export default function Sidebar() {
           label="Terapeutas"
           onClick={() => navigate("/terapeutas")}
         />
+        <SidebarItem
+          icon={<FaUserMd />}
+          label="Fases"
+          onClick={() => navigate("/terapeutas")}
+        />
       </nav>
       <button className={styles.logout} onClick={() => navigate("/")}>
         Sair
