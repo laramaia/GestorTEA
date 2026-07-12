@@ -1,14 +1,8 @@
-import type { ReactNode } from "react";
+import type { ReactNode, InputHTMLAttributes } from "react";
 import style from "../Input/input.module.css";
 
-interface InputProps {
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
-  name: string;
-  type?: string;
-  placeholder?: string;
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  required?: boolean;
   icon?: ReactNode;
   imagePreviewUrl?: string;
 }
@@ -22,6 +16,8 @@ function Input({
   onChange,
   required = false,
   icon,
+  className,
+  ...rest
 }: InputProps) {
   return (
     <div className={style.inputContainer}>
@@ -33,13 +29,15 @@ function Input({
           name={name}
           type={type}
           placeholder={placeholder}
-          className={`${style.input} ${icon ? style.inputWithIcon : ""}`}          
+          className={`${style.input} ${icon ? style.inputWithIcon : ""} ${className ?? ""}`}
           value={value}
           onChange={onChange}
           required={required}
+          {...rest}
         />
       </div>
     </div>
   );
 }
+
 export default Input;
