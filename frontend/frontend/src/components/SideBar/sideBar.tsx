@@ -42,7 +42,7 @@ export default function Sidebar() {
         <SidebarItem
           icon={<FaUserMd />}
           label="Fases"
-          onClick={() => navigate("/terapeutas")}
+          onClick={() => navigate("/fases")}
         />
       </nav>
       <button className={styles.logout} onClick={() => navigate("/")}>

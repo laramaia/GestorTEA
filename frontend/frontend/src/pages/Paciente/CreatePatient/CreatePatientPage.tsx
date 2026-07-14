@@ -12,12 +12,13 @@ export default function CriarPacientes() {
   const [loading, setLoading] = useState(false);
   const [erro, setErro] = useState<string | null>(null);
 
+  // 1. Estado alinhado perfeitamente com a model do backend C#
   const [form, setForm] = useState({
     nomeCompleto: "",
-    descricao: "",
     dataNascimento: "",
-    responsavel: "",
-    telefone: "",
+    sexo: "",
+    cpf: "",
+    endereco: "",
   });
 
   const formatDateInput = (value: string) => {
@@ -45,6 +46,7 @@ export default function CriarPacientes() {
     navigate("/pacientes");
   };
 
+  // 2. Formato de envio adaptado para ser interpretado perfeitamente pelo DateTime do C#
   const parseDataNascimento = (value: string): string => {
     const [dia, mes, ano] = value.split("/");
     if (!dia || !mes || !ano || ano.length < 4) {
@@ -65,7 +67,11 @@ export default function CriarPacientes() {
       throw new Error("Data inválida");
     }
 
-    return date.toISOString();
+    const mesFormatado = String(mesNum).padStart(2, '0');
+    const diaFormatado = String(diaNum).padStart(2, '0');
+    
+    // O C# precisa da hora em formato ISO para converter para DateTime automaticamente
+    return `${anoNum}-${mesFormatado}-${diaFormatado}T00:00:00.000Z`;
   };
 
   const handleDateChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -79,19 +85,25 @@ export default function CriarPacientes() {
     setErro(null);
 
     try {
-      const dataNascimentoISO = parseDataNascimento(form.dataNascimento);
+      const dataNascimentoFormatada = parseDataNascimento(form.dataNascimento); 
+      const agora = new Date().toISOString();
 
+      // Envia exatamente o que a sua model C# espera receber
       await api.post("/Paciente/inserir", {
-        nomeCompleto: form.nomeCompleto,
-        dataNascimento: dataNascimentoISO,
-        criadoEm: new Date().toISOString(),
-        atualizadoEm: new Date().toISOString(),
+        NomeCompleto: form.nomeCompleto,
+        DataNascimento: dataNascimentoFormatada,
+        Sexo: form.sexo,      
+        Cpf: form.cpf,       
+        Endereco: form.endereco,  
+        CriadoEm: agora,
+        AtualizadoEm: agora,
       });
 
       navigate("/pacientes");
-    } catch (err) {
+    } catch (err: any) {
+      console.error("Erro na requisição:", err.response?.data || err);
       setErro(
-        "Erro ao cadastrar paciente. Verifique a data e tente novamente.",
+        "Erro ao cadastrar paciente. Verifique os dados e tente novamente."
       );
     } finally {
       setLoading(false);
@@ -123,6 +135,7 @@ export default function CriarPacientes() {
         <form onSubmit={handleSubmit} style={{ display: "contents" }}>
           <div className={styles.modal_content}>
             <div className={styles.patient_form}>
+              
               <div className={styles.form_group}>
                 <label>Nome do paciente</label>
                 <Input
@@ -134,13 +147,15 @@ export default function CriarPacientes() {
                 />
               </div>
 
+              {/* 3. Substituídos os campos antigos pelos que a model realmente tem */}
               <div className={styles.form_group}>
-                <label>Descrição</label>
+                <label>Sexo</label>
                 <Input
                   type="text"
-                  name="descricao"
-                  value={form.descricao}
+                  name="sexo"
+                  value={form.sexo}
                   onChange={handleChange}
+                  placeholder="Ex: Masculino, Feminino..."
                 />
               </div>
 
@@ -159,21 +174,22 @@ export default function CriarPacientes() {
               </div>
 
               <div className={styles.form_group}>
-                <label>Contato do responsável</label>
+                <label>CPF</label>
                 <Input
                   type="text"
-                  name="responsavel"
-                  value={form.responsavel}
+                  name="cpf"
+                  value={form.cpf}
                   onChange={handleChange}
+                  placeholder="000.000.000-00"
                 />
               </div>
 
               <div className={styles.form_group}>
-                <label>Telefone do responsável</label>
+                <label>Endereço</label>
                 <Input
                   type="text"
-                  name="telefone"
-                  value={form.telefone}
+                  name="endereco"
+                  value={form.endereco}
                   onChange={handleChange}
                 />
               </div>

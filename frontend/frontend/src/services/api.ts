@@ -1,7 +1,12 @@
 import axios from "axios";
 
+const CONFIGS = {
+  RIDER: "http://localhost:5055/api",
+  VISUAL_STUDIO: "https://localhost:7230/api" 
+};
+
 const api = axios.create({
-  baseURL: "https://localhost:7230/api",
+  baseURL: CONFIGS.RIDER, 
 });
 
 export default api;
