@@ -1,0 +1,146 @@
+.modal_overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.add_patient_modal {
+  background-color: var(--background-color-quarternary);
+  border-radius: var(--border-radius-lg);
+  width: 600px; 
+  max-width: 90vw;
+  padding: 40px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.close_btn {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  color: var(--text-primary);
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.modal_title {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 32px;
+}
+
+.modal_content {
+  display: flex;
+  flex-direction: column; 
+  gap: 28px; 
+}
+
+.form_group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form_group label {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.form_group input {
+  background-color: var(--input-color-secondary);
+  border: none;
+  outline: none;
+  padding: 12px 16px;
+  border-radius: 8px;
+  color: var(--text-primary);
+}
+
+.alternatives_section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.alternatives_title {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.alternatives_list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.alternative_item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.radio_input {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #a5a1ff;
+  border-radius: 50%;
+  outline: none;
+  cursor: pointer;
+  display: grid;
+  place-content: center;
+  transition: 0.15s ease-in-out;
+  flex-shrink: 0; 
+}
+
+.radio_input:checked {
+  background-color: #a5a1ff;
+  border-color: #a5a1ff;
+}
+
+.radio_input:checked::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--background-color-quarternary);
+}
+
+.alternative_input {
+  flex: 1;
+  background-color: var(--input-color-secondary);
+  border: none;
+  outline: none;
+  padding: 12px 16px;
+  border-radius: 8px;
+  color: var(--text-primary);
+}
+
+.modal_footer {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+.modal_footer button {
+  width: fit-content;
+  padding: 12px 32px;
+  border-radius: 8px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.error_message {
+  color: #ff6b6b;
+  font-size: 14px;
+  margin-bottom: 16px;
+}
