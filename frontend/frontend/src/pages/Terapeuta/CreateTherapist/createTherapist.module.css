@@ -1,0 +1,72 @@
+.modal_overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.add_therapist_modal {
+  background-color: var(--background-color-quarternary);
+  border-radius: var(--border-radius-lg);
+  width: 420px;
+  max-width: 90vw;
+  padding: 40px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.close_btn {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  color: var(--text-primary);
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.modal_title {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 32px;
+}
+
+.therapist_form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form_group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form_group label {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.form_group input {
+  background-color: var(--input-color-secondary);
+  border: none;
+  outline: none;
+}
+
+.modal_footer {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.modal_footer button {
+  width: fit-content;
+  padding: 12px 32px;
+}

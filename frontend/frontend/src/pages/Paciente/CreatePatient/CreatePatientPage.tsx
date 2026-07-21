@@ -12,7 +12,6 @@ export default function CriarPacientes() {
   const [loading, setLoading] = useState(false);
   const [erro, setErro] = useState<string | null>(null);
 
-  // 1. Estado alinhado perfeitamente com a model do backend C#
   const [form, setForm] = useState({
     nomeCompleto: "",
     dataNascimento: "",
@@ -46,7 +45,6 @@ export default function CriarPacientes() {
     navigate("/pacientes");
   };
 
-  // 2. Formato de envio adaptado para ser interpretado perfeitamente pelo DateTime do C#
   const parseDataNascimento = (value: string): string => {
     const [dia, mes, ano] = value.split("/");
     if (!dia || !mes || !ano || ano.length < 4) {
@@ -70,7 +68,6 @@ export default function CriarPacientes() {
     const mesFormatado = String(mesNum).padStart(2, '0');
     const diaFormatado = String(diaNum).padStart(2, '0');
     
-    // O C# precisa da hora em formato ISO para converter para DateTime automaticamente
     return `${anoNum}-${mesFormatado}-${diaFormatado}T00:00:00.000Z`;
   };
 
@@ -88,7 +85,6 @@ export default function CriarPacientes() {
       const dataNascimentoFormatada = parseDataNascimento(form.dataNascimento); 
       const agora = new Date().toISOString();
 
-      // Envia exatamente o que a sua model C# espera receber
       await api.post("/Paciente/inserir", {
         NomeCompleto: form.nomeCompleto,
         DataNascimento: dataNascimentoFormatada,
@@ -147,7 +143,6 @@ export default function CriarPacientes() {
                 />
               </div>
 
-              {/* 3. Substituídos os campos antigos pelos que a model realmente tem */}
               <div className={styles.form_group}>
                 <label>Sexo</label>
                 <Input
