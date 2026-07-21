@@ -13,8 +13,8 @@
 .add_therapist_modal {
   background-color: var(--background-color-quarternary);
   border-radius: var(--border-radius-lg);
-  width: 420px;
-  max-width: 90vw;
+  width: 590px;
+  max-width: 80vw;
   padding: 40px;
   position: relative;
   display: flex;
@@ -34,10 +34,11 @@
 .modal_title {
   font-size: 24px;
   font-weight: 600;
-  margin-bottom: 32px;
+  margin-bottom: 50px;
 }
 
 .therapist_form {
+  flex: 1;
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -59,11 +60,14 @@
   border: none;
   outline: none;
 }
-
+.modal_content {
+  display: flex;
+  gap: 64px;
+}
 .modal_footer {
   display: flex;
   justify-content: center;
-  margin-top: 20px;
+  margin-top: 40px;
 }
 
 .modal_footer button {

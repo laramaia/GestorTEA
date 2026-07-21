@@ -81,8 +81,10 @@ export default function CreateTherapist() {
         <h2 className={styles.modal_title}>Dados do terapeuta</h2>
 
         {erro && <p style={{ color: "red", textAlign: "center" }}>{erro}</p>}
-
-        <form onSubmit={handleSubmit} className={styles.therapist_form}>
+        <form onSubmit={handleSubmit} style={{ display: "contents" }} >
+          <div className={styles.modal_content}>
+          <div className={styles.therapist_form}>
+            
           <div className={styles.form_group}>
             <label>Nome do terapeuta</label>
             <Input
@@ -117,7 +119,7 @@ export default function CreateTherapist() {
           </div>
 
           <div className={styles.form_group}>
-            <label>Numero de celular</label>
+            <label>Número de celular</label>
             <Input
               type="text"
               name="numeroCelular"
@@ -127,7 +129,7 @@ export default function CreateTherapist() {
           </div>
 
           <div className={styles.form_group}>
-            <label>Email</label>
+            <label>E-mail</label>
             <Input
               type="email"
               name="email"
@@ -161,6 +163,8 @@ export default function CreateTherapist() {
               {loading ? "Cadastrando..." : "Adicionar terapeuta"}
             </Button>
           </div>
+          </div>
+        </div>
         </form>
       </div>
     </div>

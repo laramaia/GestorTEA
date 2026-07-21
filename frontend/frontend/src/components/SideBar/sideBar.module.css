@@ -17,7 +17,7 @@
 .nav {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 30px;
 }
 
 .item {
@@ -25,7 +25,7 @@
   align-items: center;
   padding: 15px;
   border-radius: 8px;
-  gap: 2px;
+  gap: 5px;
   cursor: pointer;
   transition: 0.2s;
   color: #c8c8c8;
@@ -42,7 +42,9 @@
 }
 
 .icon {
-  font-size: 18px;
+  font-size: 20px;
+  justify-content: center;
+  display: flex;
 }
 
 .logout {

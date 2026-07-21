@@ -1,6 +1,7 @@
 import { FiGrid, FiSearch } from "react-icons/fi";
 import { HiUsers } from "react-icons/hi";
 import { FaUserMd } from "react-icons/fa";
+import { LuGamepad2 } from "react-icons/lu";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import SidebarItem from "./SideBarItem/sideBarItem";
@@ -40,7 +41,7 @@ export default function Sidebar() {
           onClick={() => navigate("/terapeutas")}
         />
         <SidebarItem
-          icon={<FaUserMd />}
+          icon={<LuGamepad2 />}
           label="Fases"
           onClick={() => navigate("/fases")}
         />
