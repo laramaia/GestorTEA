@@ -12,7 +12,7 @@ export function useTherapist(pageSize: number) {
     async function fetchTherapists() {
       try {
         setLoading(true);
-        const response = await api.get<Therapist[]>("/Therapist/listar");
+        const response = await api.get<Therapist[]>("/Terapeuta/listar");
         setTherapists(response.data);
       } catch (error) {
         console.error("Erro ao buscar terapeutas:", error);
@@ -44,8 +44,8 @@ export function useTherapist(pageSize: number) {
 
   const deleteTherapist = async (id: number) => {
     try {
-      await api.delete(`/Therapist/deletar/${id}`);
-      setTherapists((prev) => prev.filter((t) => t.therapistId !== id));
+      await api.delete(`/Terapeuta/deletar/${id}`);
+      setTherapists((prev) => prev.filter((t) => t.terapeutaId !== id));
     } catch (error) {
       console.error("Erro ao deletar terapeuta:", error);
     }

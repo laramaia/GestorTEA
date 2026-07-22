@@ -11,8 +11,31 @@ interface PacienteDetalhe {
   sexo: string;
   cpf: string;
   endereco: string;
+  fotoUrl: string | null;
   criadoEm: string;
 }
+
+const formatarDataExibicao = (dataISO: string): string => {
+  const [dataParte] = dataISO.split("T");
+  const [ano, mes, dia] = dataParte.split("-").map(Number);
+
+  const nomesMeses = [
+    "janeiro",
+    "fevereiro",
+    "março",
+    "abril",
+    "maio",
+    "junho",
+    "julho",
+    "agosto",
+    "setembro",
+    "outubro",
+    "novembro",
+    "dezembro",
+  ];
+
+  return `${dia} de ${nomesMeses[mes - 1]} de ${ano}`;
+};
 
 export default function DetailsPatient() {
   const navigate = useNavigate();
@@ -26,7 +49,7 @@ export default function DetailsPatient() {
   useEffect(() => {
     async function fetchPaciente() {
       try {
-        const response = await api.get("/paciente/listar");
+        const response = await api.get("/Paciente/listar");
         const lista: PacienteDetalhe[] = response.data;
         const encontrado = lista.find((p) => String(p.pacienteId) === id);
         setPatient(encontrado ?? null);
@@ -51,14 +74,11 @@ export default function DetailsPatient() {
     );
 
   const primeiroNome = patient.nomeCompleto.split(" ")[0];
-  const dataNasc = new Date(patient.dataNascimento).toLocaleDateString(
-    "pt-BR",
-    {
-      day: "numeric",
-      month: "long",
-      year: "numeric",
-    },
-  );
+  const dataNasc = formatarDataExibicao(patient.dataNascimento);
+
+  const fotoCompleta = patient.fotoUrl
+    ? `${api.defaults.baseURL}${patient.fotoUrl}`
+    : null;
 
   return (
     <div className={styles.modal_overlay}>
@@ -73,17 +93,25 @@ export default function DetailsPatient() {
         <div className={styles.detail_layout}>
           <aside className={styles.profile_sidebar}>
             <div className={styles.avatar_container}>
-              <svg
-                width="80"
-                height="80"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-              >
-                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                <circle cx="12" cy="7" r="4" />
-              </svg>
+              {fotoCompleta ? (
+                <img
+                  src={fotoCompleta}
+                  alt={patient.nomeCompleto}
+                  className={styles.avatar_img}
+                />
+              ) : (
+                <svg
+                  width="80"
+                  height="80"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                  <circle cx="12" cy="7" r="4" />
+                </svg>
+              )}
             </div>
             <h2 className={styles.profile_name}>{patient.nomeCompleto}</h2>
             <p className={styles.profile_description}>
@@ -96,6 +124,11 @@ export default function DetailsPatient() {
             </div>
 
             <div className={styles.profile_info_group}>
+              <h4>Sexo</h4>
+              <p>{patient.sexo || "Não informado"}</p>
+            </div>
+
+            <div className={styles.profile_info_group}>
               <h4>CPF</h4>
               <p>{patient.cpf || "Não informado"}</p>
             </div>
@@ -105,7 +138,14 @@ export default function DetailsPatient() {
               <p>{patient.endereco || "Não informado"}</p>
             </div>
 
-            <button className={styles.edit_profile_btn}>Editar perfil</button>
+            <button
+              className={styles.edit_profile_btn}
+              onClick={() =>
+                navigate(`/pacientes/create/${patient.pacienteId}`)
+              }
+            >
+              Editar perfil
+            </button>
           </aside>
 
           <main className={styles.detail_content}>

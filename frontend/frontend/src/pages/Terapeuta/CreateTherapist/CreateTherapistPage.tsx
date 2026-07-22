@@ -1,14 +1,32 @@
 import { useState, type ChangeEvent, type FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "../CreateTherapist/createTherapist.module.css";
+import type { TherapistCreatePayload } from "../../../types/therapist";
 import api from "../../../services/api";
 import Input from "../../../components/Input/input";
 import Button from "../../../components/Button/button";
+import FeedbackModal from "../../../components/FeedbackModal/feedBackModal";
+
+interface FormErrors {
+  nomeCompleto?: string;
+  numeroLicenca?: string;
+  especializacao?: string;
+  numeroCelular?: string;
+  email?: string;
+  senha?: string;
+  repetirSenha?: string;
+}
+
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const TELEFONE_REGEX = /^\(?\d{2}\)?\s?\d{4,5}-?\d{4}$/;
+
+type Feedback = { type: "success" | "error"; message: string } | null;
 
 export default function CreateTherapist() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const [erro, setErro] = useState<string | null>(null);
+  const [fieldErrors, setFieldErrors] = useState<FormErrors>({});
+  const [feedback, setFeedback] = useState<Feedback>(null);
 
   const [form, setForm] = useState({
     nomeCompleto: "",
@@ -21,42 +39,108 @@ export default function CreateTherapist() {
   });
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setForm({ ...form, [name]: value });
+
+    if (fieldErrors[name as keyof FormErrors]) {
+      setFieldErrors({ ...fieldErrors, [name]: undefined });
+    }
   };
 
   const handleClose = () => {
     navigate("/terapeutas");
   };
 
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-    setErro(null);
+  const validarFormulario = (): FormErrors => {
+    const errors: FormErrors = {};
 
-    if (form.senha || form.repetirSenha) {
-      if (form.senha !== form.repetirSenha) {
-        setErro("As senhas não coincidem.");
-        return;
-      }
+    if (!form.nomeCompleto.trim()) {
+      errors.nomeCompleto = "Nome completo é obrigatório.";
+    } else if (form.nomeCompleto.trim().length > 100) {
+      errors.nomeCompleto = "O nome não pode exceder 100 caracteres.";
     }
 
+    if (!form.numeroLicenca.trim()) {
+      errors.numeroLicenca = "Número de licença é obrigatório.";
+    }
+
+    if (!form.especializacao.trim()) {
+      errors.especializacao = "Especialização é obrigatória.";
+    }
+
+    if (
+      form.numeroCelular.trim() &&
+      !TELEFONE_REGEX.test(form.numeroCelular.trim())
+    ) {
+      errors.numeroCelular = "Telefone inválido. Ex: (65) 91234-5678";
+    }
+
+    if (!form.email.trim()) {
+      errors.email = "E-mail é obrigatório.";
+    } else if (!EMAIL_REGEX.test(form.email.trim())) {
+      errors.email = "E-mail em formato inválido.";
+    }
+
+    if (!form.senha) {
+      errors.senha = "A senha é obrigatória.";
+    } else if (form.senha.length < 6 || form.senha.length > 30) {
+      errors.senha = "A senha deve ter entre 6 e 30 caracteres.";
+    }
+
+    if (!form.repetirSenha) {
+      errors.repetirSenha = "Repita a senha.";
+    } else if (form.senha !== form.repetirSenha) {
+      errors.repetirSenha = "As senhas não coincidem.";
+    }
+
+    return errors;
+  };
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+
+    const errors = validarFormulario();
+    if (Object.keys(errors).length > 0) {
+      setFieldErrors(errors);
+      return;
+    }
+
+    setFieldErrors({});
     setLoading(true);
 
-    try {
-      await api.post("/Terapeuta/inserir", {
-        nomeCompleto: form.nomeCompleto,
-        numeroLicenca: form.numeroLicenca,
-        especializacao: form.especializacao,
-        email: form.email || null,
-        numeroCelular: form.numeroCelular || null,
-        ativo: true,
-      });
+    const payload: TherapistCreatePayload = {
+      nomeCompleto: form.nomeCompleto,
+      numeroLicenca: form.numeroLicenca,
+      especializacao: form.especializacao,
+      email: form.email,
+      numeroCelular: form.numeroCelular || null,
+      senha: form.senha,
+    };
 
-      navigate("/terapeutas");
-    } catch (err) {
-      setErro("Erro ao cadastrar terapeuta. Tente novamente.");
+    try {
+      await api.post("/Terapeuta/inserir", payload);
+
+      setFeedback({
+        type: "success",
+        message: `${form.nomeCompleto.split(" ")[0]} foi cadastrado com sucesso no sistema.`,
+      });
+    } catch (err: any) {
+      console.error("Erro na requisição:", err.response?.data || err);
+      setFeedback({
+        type: "error",
+        message:
+          err.response?.data?.mensagem ||
+          "Não foi possível cadastrar o terapeuta. Verifique os dados e tente novamente.",
+      });
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleFeedbackClose = () => {
+    const wasSuccess = feedback?.type === "success";
+    setFeedback(null);
+    if (wasSuccess) navigate("/terapeutas");
   };
 
   return (
@@ -80,93 +164,146 @@ export default function CreateTherapist() {
 
         <h2 className={styles.modal_title}>Dados do terapeuta</h2>
 
-        {erro && <p style={{ color: "red", textAlign: "center" }}>{erro}</p>}
-        <form onSubmit={handleSubmit} style={{ display: "contents" }} >
+        <form onSubmit={handleSubmit} style={{ display: "contents" }}>
           <div className={styles.modal_content}>
-          <div className={styles.therapist_form}>
-            
-          <div className={styles.form_group}>
-            <label>Nome do terapeuta</label>
-            <Input
-              type="text"
-              name="nomeCompleto"
-              value={form.nomeCompleto}
-              onChange={handleChange}
-              required
-            />
-          </div>
+            <div className={styles.therapist_form}>
+              <div className={styles.form_group}>
+                <label>Nome do terapeuta</label>
+                <Input
+                  type="text"
+                  name="nomeCompleto"
+                  value={form.nomeCompleto}
+                  onChange={handleChange}
+                  required
+                />
+                {fieldErrors.nomeCompleto && (
+                  <span style={{ color: "red", fontSize: "13px" }}>
+                    {fieldErrors.nomeCompleto}
+                  </span>
+                )}
+              </div>
 
-          <div className={styles.form_group}>
-            <label>Número de licença</label>
-            <Input
-              type="text"
-              name="numeroLicenca"
-              value={form.numeroLicenca}
-              onChange={handleChange}
-              required
-            />
-          </div>
+              <div className={styles.form_group}>
+                <label>Número de licença</label>
+                <Input
+                  type="text"
+                  name="numeroLicenca"
+                  value={form.numeroLicenca}
+                  onChange={handleChange}
+                  required
+                />
+                {fieldErrors.numeroLicenca && (
+                  <span style={{ color: "red", fontSize: "13px" }}>
+                    {fieldErrors.numeroLicenca}
+                  </span>
+                )}
+              </div>
 
-          <div className={styles.form_group}>
-            <label>Especialização</label>
-            <Input
-              type="text"
-              name="especializacao"
-              value={form.especializacao}
-              onChange={handleChange}
-              required
-            />
-          </div>
+              <div className={styles.form_group}>
+                <label>Especialização</label>
+                <Input
+                  type="text"
+                  name="especializacao"
+                  value={form.especializacao}
+                  onChange={handleChange}
+                  required
+                />
+                {fieldErrors.especializacao && (
+                  <span style={{ color: "red", fontSize: "13px" }}>
+                    {fieldErrors.especializacao}
+                  </span>
+                )}
+              </div>
 
-          <div className={styles.form_group}>
-            <label>Número de celular</label>
-            <Input
-              type="text"
-              name="numeroCelular"
-              value={form.numeroCelular}
-              onChange={handleChange}
-            />
-          </div>
+              <div className={styles.form_group}>
+                <label>Número de celular</label>
+                <Input
+                  type="text"
+                  name="numeroCelular"
+                  value={form.numeroCelular}
+                  onChange={handleChange}
+                  placeholder="(65) 91234-5678"
+                />
+                {fieldErrors.numeroCelular && (
+                  <span style={{ color: "red", fontSize: "13px" }}>
+                    {fieldErrors.numeroCelular}
+                  </span>
+                )}
+              </div>
 
-          <div className={styles.form_group}>
-            <label>E-mail</label>
-            <Input
-              type="email"
-              name="email"
-              value={form.email}
-              onChange={handleChange}
-            />
-          </div>
+              <div className={styles.form_group}>
+                <label>E-mail</label>
+                <Input
+                  type="email"
+                  name="email"
+                  value={form.email}
+                  onChange={handleChange}
+                  required
+                />
+                {fieldErrors.email && (
+                  <span style={{ color: "red", fontSize: "13px" }}>
+                    {fieldErrors.email}
+                  </span>
+                )}
+              </div>
 
-          <div className={styles.form_group}>
-            <label>Senha</label>
-            <Input
-              type="password"
-              name="senha"
-              value={form.senha}
-              onChange={handleChange}
-            />
-          </div>
+              <div className={styles.form_group}>
+                <label>Senha</label>
+                <Input
+                  type="password"
+                  name="senha"
+                  value={form.senha}
+                  onChange={handleChange}
+                  required
+                  minLength={6}
+                  maxLength={30}
+                />
+                {fieldErrors.senha && (
+                  <span style={{ color: "red", fontSize: "13px" }}>
+                    {fieldErrors.senha}
+                  </span>
+                )}
+              </div>
 
-          <div className={styles.form_group}>
-            <label>Repita a senha</label>
-            <Input
-              type="password"
-              name="repetirSenha"
-              value={form.repetirSenha}
-              onChange={handleChange}
-            />
-          </div>
+              <div className={styles.form_group}>
+                <label>Repita a senha</label>
+                <Input
+                  type="password"
+                  name="repetirSenha"
+                  value={form.repetirSenha}
+                  onChange={handleChange}
+                  required
+                />
+                {fieldErrors.repetirSenha && (
+                  <span style={{ color: "red", fontSize: "13px" }}>
+                    {fieldErrors.repetirSenha}
+                  </span>
+                )}
+              </div>
 
-          <div className={styles.modal_footer}>
-            <Button type="submit" disabled={loading}>
-              {loading ? "Cadastrando..." : "Adicionar terapeuta"}
-            </Button>
+              <div className={styles.modal_footer}>
+                <Button type="submit" disabled={loading}>
+                  {loading ? "Cadastrando..." : "Adicionar terapeuta"}
+                </Button>
+              </div>
+            </div>
           </div>
-          </div>
-        </div>
         </form>
       </div>
+
+      {feedback && (
+        <FeedbackModal
+          type={feedback.type}
+          title={
+            feedback.type === "success" ? "Sucesso!" : "Ops, algo deu errado"
+          }
+          message={feedback.message}
+          buttonText={
+            feedback.type === "success" ? "Concluído" : "Tentar novamente"
+          }
+          onClose={handleFeedbackClose}
+        />
+      )}
     </div>
   );
 }

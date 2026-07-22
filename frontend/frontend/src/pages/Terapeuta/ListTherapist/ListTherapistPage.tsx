@@ -67,7 +67,7 @@ export default function ListTherapists() {
             </thead>
             <tbody>
               {currentItems.map((therapist) => (
-                <tr key={therapist.therapistId}>
+                <tr key={therapist.terapeutaId}>
                   <td className={styles.nameCell}>{therapist.nomeCompleto}</td>
                   <td>{therapist.numeroCelular || "-"}</td>
                   <td>{therapist.email || "-"}</td>
@@ -75,7 +75,7 @@ export default function ListTherapists() {
                     <button
                       className={styles.editBtn}
                       onClick={() =>
-                        navigate(`/terapeutas/create/${therapist.therapistId}`)
+                        navigate(`/terapeutas/create/${therapist.terapeutaId}`)
                       }
                     >
                       <FiEdit />
