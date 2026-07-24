@@ -15,7 +15,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddScoped<AuthService>();
-var chaveSecreta = builder.Configuration["JwtSettings:SecretKey"] ?? throw new ArgumentNullException("Chave JWT não configurada.");
+var chaveSecreta = builder.Configuration["JwtSettings:SecretKey"] ?? throw new ArgumentNullException("Chave JWT nï¿½o configurada.");
 var key = Encoding.ASCII.GetBytes(chaveSecreta);
 
 builder.Services.AddAuthentication(options =>
@@ -46,7 +46,7 @@ builder.Services.AddCors(options =>
         policy =>
         {
             policy
-                .WithOrigins("http://localhost:3000")
+                .WithOrigins("http://localhost:3000", "http://localhost:5173")
                 .AllowAnyHeader()
                 .AllowAnyMethod();
         });
@@ -62,6 +62,7 @@ if (app.Environment.IsDevelopment())
 }
 
 //app.UseHttpsRedirection();
+app.UseRouting();
 
 app.UseCors("AllowFrontend");
 
