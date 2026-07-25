@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using backend.Models.Commons;
 
 namespace backend.DTOs;
 
@@ -7,6 +8,8 @@ public class TerapeutaCadastroDto
     [Required(ErrorMessage = "Nome completo é obrigatório.")]
     [StringLength(100, ErrorMessage = "O nome não pode exceder 100 caracteres.")]
     public string NomeCompleto { get; set; } = string.Empty;
+    [Required(ErrorMessage = "Sexo é obrigatório.")]
+    public SexoEnum Sexo { get; set; }
 
     [Required(ErrorMessage = "Número de licença é obrigatório.")]
     public string NumeroLicenca { get; set; } = string.Empty;

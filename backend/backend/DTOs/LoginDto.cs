@@ -2,7 +2,7 @@
 
 namespace backend.DTOs;
 
-public class TerapeutaLoginDto
+public class LoginDto
 {
     [Required(ErrorMessage = "O e-mail é obrigatório.")]
     [EmailAddress(ErrorMessage = "E-mail em formato inválido.")]

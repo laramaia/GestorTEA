@@ -17,7 +17,7 @@ export function usePatients(itemsPerPage: number = 5) {
           name: p.nomeCompleto,
           tasksCompleted: "0/0",
           averageScore: 0,
-          photoUrl: "",
+          photoUrl: p.fotoPerfil || p.FotoPerfil || "",
         }));
         setPatients(data);
       } catch (err) {

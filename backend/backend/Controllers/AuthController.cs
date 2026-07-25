@@ -23,10 +23,7 @@ namespace backend.Controllers
         [HttpPost("registrar")]
         public async Task<IActionResult> Registrar([FromBody] TerapeutaCadastroDto dto)
         {
-            // Valida se as anotações do DTO são válidas
-            if (!ModelState.IsValid) return BadRequest(ModelState);
-
-            if (await _context.Terapeutas.AnyAsync(t => t.Email == dto.Email))
+            if (await _context.Usuarios.AnyAsync(u => u.Email == dto.Email))
             {
                 return BadRequest(new { mensagem = "Este e-mail já está cadastrado." });
             }
@@ -50,32 +47,31 @@ namespace backend.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] TerapeutaLoginDto dto)
+        public async Task<IActionResult> Login([FromBody] LoginDto dto)
         {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
+            var usuario = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == dto.Email);
 
-            var terapeuta = await _context.Terapeutas.FirstOrDefaultAsync(t => t.Email == dto.Email);
-
-            if (terapeuta == null || !_authService.VerificarSenha(dto.Senha, terapeuta.SenhaHash))
+            if (usuario == null || !_authService.VerificarSenha(dto.Senha, usuario.SenhaHash))
             {
                 return Unauthorized(new { mensagem = "E-mail ou senha incorretos." });
             }
 
-            if (!terapeuta.Ativo)
+            if (!usuario.Ativo)
             {
-                return Forbid("Esta conta de terapeuta está inativa.");
+                return StatusCode(StatusCodes.Status403Forbidden, new { mensagem = "Esta conta de usuário está inativa." });
             }
 
-            var token = _authService.GerarTokenJwt(terapeuta);
+            var token = _authService.GerarTokenJwt(usuario);
 
             return Ok(new
             {
                 token = token,
                 usuario = new
                 {
-                    id = terapeuta.TerapeutaId,
-                    nome = terapeuta.NomeCompleto,
-                    email = terapeuta.Email
+                    id = usuario.UsuarioId,
+                    nome = usuario.NomeCompleto,
+                    email = usuario.Email,
+                    perfil = usuario.Perfil.ToString()
                 }
             });
         }

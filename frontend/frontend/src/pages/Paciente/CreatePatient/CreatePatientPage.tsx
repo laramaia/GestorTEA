@@ -9,13 +9,14 @@ export default function CriarPacientes() {
   const navigate = useNavigate();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const [erro, setErro] = useState<string | null>(null);
 
   const [form, setForm] = useState({
     nomeCompleto: "",
     dataNascimento: "",
-    sexo: "",
+    sexo: "1",
     cpf: "",
     endereco: "",
   });
@@ -28,14 +29,23 @@ export default function CriarPacientes() {
     return `${digits.slice(0, 2)}/${digits.slice(2, 4)}/${digits.slice(4)}`;
   };
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) setImagePreview(URL.createObjectURL(file));
-  };
+  const file = e.target.files?.[0];
+  if (file) {
+    setSelectedFile(file); // Guarda o arquivo físico no estado
+
+    // Para o preview da tela
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setImagePreview(reader.result as string);
+    };
+    reader.readAsDataURL(file);
+  }
+};
 
   const handlePlaceholderClick = () => {
     fileInputRef.current?.click();
@@ -77,34 +87,41 @@ export default function CriarPacientes() {
   };
 
   const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setErro(null);
+  e.preventDefault();
+  setLoading(true);
+  setErro(null);
 
-    try {
-      const dataNascimentoFormatada = parseDataNascimento(form.dataNascimento); 
-      const agora = new Date().toISOString();
+  try {
+    const dataNascimentoFormatada = parseDataNascimento(form.dataNascimento); 
 
-      await api.post("/Paciente/inserir", {
-        NomeCompleto: form.nomeCompleto,
-        DataNascimento: dataNascimentoFormatada,
-        Sexo: form.sexo,      
-        Cpf: form.cpf,       
-        Endereco: form.endereco,  
-        CriadoEm: agora,
-        AtualizadoEm: agora,
-      });
+    const formData = new FormData();
+    formData.append("NomeCompleto", form.nomeCompleto);
+    formData.append("DataNascimento", dataNascimentoFormatada);
+    formData.append("Sexo", form.sexo);
+    if (form.cpf) formData.append("Cpf", form.cpf);
+    if (form.endereco) formData.append("Endereco", form.endereco);
 
-      navigate("/pacientes");
-    } catch (err: any) {
-      console.error("Erro na requisição:", err.response?.data || err);
-      setErro(
-        "Erro ao cadastrar paciente. Verifique os dados e tente novamente."
-      );
-    } finally {
-      setLoading(false);
+    if (selectedFile) {
+      formData.append("foto", selectedFile);
+      console.log("Arquivo anexado com sucesso:", selectedFile.name);
+    } else {
+      console.warn("Nenhum arquivo de imagem foi selecionado!");
     }
-  };
+
+    await api.post("/Paciente/inserir", formData, {
+  headers: {
+    "Content-Type": "multipart/form-data",
+  },
+});
+
+    navigate("/pacientes");
+  } catch (err: any) {
+    console.error("Erro na requisição:", err.response?.data || err);
+    setErro("Erro ao cadastrar paciente. Verifique os dados e tente novamente.");
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div className={styles.modal_overlay}>
@@ -145,13 +162,16 @@ export default function CriarPacientes() {
 
               <div className={styles.form_group}>
                 <label>Sexo</label>
-                <Input
-                  type="text"
+                <select
                   name="sexo"
                   value={form.sexo}
                   onChange={handleChange}
-                  placeholder="Ex: Masculino, Feminino..."
-                />
+                  className={styles.select_input}
+                  required
+                >
+                  <option value="1">Feminino</option>
+                  <option value="2">Masculino</option>
+                </select>
               </div>
 
               <div className={styles.form_group}>

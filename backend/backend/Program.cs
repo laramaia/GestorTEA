@@ -61,6 +61,15 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+var provider = new Microsoft.AspNetCore.StaticFiles.FileExtensionContentTypeProvider();
+provider.Mappings[".avif"] = "image/avif";
+provider.Mappings[".webp"] = "image/webp";
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    ContentTypeProvider = provider
+});
+
 //app.UseHttpsRedirection();
 app.UseRouting();
 

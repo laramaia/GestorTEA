@@ -4,10 +4,25 @@ import {
   FiSearch,
   FiChevronLeft,
   FiChevronRight,
+  FiTrash2,
 } from "react-icons/fi";
 import { usePatients } from "../../../hooks/usePatient";
 import Input from "../../../components/Input/input";
 import styles from "../ListPatient/listPatient.module.css";
+import api from "../../../services/api";
+
+const getImageUrl = (path?: string) => {
+  if (!path || path.trim() === "") {
+    return "http://via.placeholder.com/40"; 
+  }
+
+  if (path.startsWith("http") || path.startsWith("data:")) {
+    return path; 
+  }
+  
+  const API_BASE_URL = "http://localhost:5055"; 
+  return `${API_BASE_URL}${path.startsWith("/") ? path : `/${path}`}`;
+};
 
 export default function ListPatient() {
   const navigate = useNavigate();
@@ -21,6 +36,18 @@ export default function ListPatient() {
     currentItems,
     loading,
   } = usePatients(5);
+
+  const handleDelete = async (id: string | number) => {
+    if (!confirm("Tem certeza que deseja excluir este paciente?")) return;
+
+    try {
+      await api.delete(`/Paciente/deletar/${id}`);
+      window.location.reload();
+    } catch (err) {
+      console.error("Erro ao deletar paciente:", err);
+      alert("Não foi possível excluir o paciente. Tente novamente.");
+    }
+  };
 
   return (
     <div className={styles.container}>
@@ -70,44 +97,68 @@ export default function ListPatient() {
               </tr>
             </thead>
             <tbody>
-              {currentItems.map((patient) => (
-                <tr key={patient.id}>
-                  <td className={styles.patientCell}>
-                    <img src={patient.photoUrl} alt={patient.name} />
-                    <span>{patient.name}</span>
-                  </td>
-                  <td>{patient.tasksCompleted}</td>
-                  <td>
-                    <div className={styles.progressContainer}>
-                      <div className={styles.progressBar}>
-                        <div
-                          className={styles.progressFill}
-                          style={{ width: `${patient.averageScore}%` }}
-                        />
+              {currentItems.map((patient: any) => {
+                const rawPhotoPath = 
+                  patient.photoUrl || 
+                  patient.fotoPerfil || 
+                  patient.FotoPerfil || 
+                  patient.foto || 
+                  patient.caminhoFoto;
+
+                const patientName = patient.name || patient.nomeCompleto || patient.NomeCompleto;
+                const patientId = patient.id || patient.pacienteId || patient.PacienteId;
+
+                return (
+                  <tr key={patientId}>
+                    <td className={styles.patientCell}>
+                      <img 
+                        src={getImageUrl(rawPhotoPath)} 
+                        alt={patientName} 
+                      />
+                      <span>{patientName}</span>
+                    </td>
+                    <td>{patient.tasksCompleted ?? patient.TarefasCompletas ?? 0}</td>
+                    <td>
+                      <div className={styles.progressContainer}>
+                        <div className={styles.progressBar}>
+                          <div
+                            className={styles.progressFill}
+                            style={{ width: `${patient.averageScore || patient.MediaAcertos || 0}%` }}
+                          />
+                        </div>
+                        <span>{patient.averageScore || patient.MediaAcertos || 0}%</span>
                       </div>
-                      <span>{patient.averageScore}%</span>
-                    </div>
-                  </td>
-                  <td className={styles.actions}>
-                    <button
-                      className={styles.resultBtn}
-                      onClick={() =>
-                        navigate(`/pacientes/details/${patient.id}`)
-                      }
-                    >
-                      Resultados
-                    </button>
-                    <button
-                      className={styles.editBtn}
-                      onClick={() =>
-                        navigate(`/pacientes/create/${patient.id}`)
-                      }
-                    >
-                      <FiEdit />
-                    </button>
-                  </td>
-                </tr>
-              ))}
+                    </td>
+                    <td className={styles.actions}>
+                      <button
+                        className={styles.resultBtn}
+                        onClick={() => navigate(`/pacientes/details/${patientId}`)}
+                      >
+                        Resultados
+                      </button>
+                      <button
+                        className={styles.editBtn}
+                        onClick={() => navigate(`/pacientes/create/${patientId}`)}
+                        title="Editar paciente"
+                      >
+                        <FiEdit />
+                      </button>
+                      <button
+                        className={styles.editBtn}
+                        style={{
+                          color: "#ff6b6b",
+                          background: "transparent",
+                          marginLeft: "8px",
+                        }}
+                        onClick={() => handleDelete(patientId)}
+                        title="Excluir paciente"
+                      >
+                        <FiTrash2 />
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         )}
