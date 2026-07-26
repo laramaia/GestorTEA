@@ -1,53 +1,38 @@
 ﻿using backend.Data;
 using backend.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace backend.Controllers;
 
-[ApiController]
-[Route("api/[controller]")]
-public class OpcaoController : ControllerBase
+public class OpcaoController : CrudController<Opcao>
 {
-    private readonly AppDbContext _db;
-
-    public OpcaoController(AppDbContext db)
-    {
-        _db = db;
-    }
+    public OpcaoController(AppDbContext db) : base(db)
+    { }
 
     [HttpGet("listar")]
-    public IActionResult ListarTodas()
+    public override async Task<IActionResult> ObterTodos()
     {
-        return Ok(_db.Opcoes.ToList());
+        var lista = await _db.Opcoes.AsNoTracking().ToListAsync();
+        return Ok(lista);
     }
 
-    [HttpPut("atualizar/{id}")]
-    public IActionResult AtualizarOpcao(int id, [FromBody] Opcao opcaoAtualizada)
+    [HttpPut("atualizar/{id:int}")]
+    public override async Task<IActionResult> Atualizar(int id, [FromBody] Opcao opcaoAtualizada)
     {
-        var opcaoNoBanco = _db.Opcoes.Find(id);
+        var opcaoNoBanco = await _db.Opcoes.FindAsync(id);
 
-        if (opcaoNoBanco == null) return NotFound("Opção não encontrada.");
+        if (opcaoNoBanco == null) 
+            return NotFound(new { mensagem = "Opção não encontrada." });
 
         opcaoNoBanco.Texto = opcaoAtualizada.Texto;
         opcaoNoBanco.EhCorreta = opcaoAtualizada.EhCorreta;
 
-        _db.SaveChanges();
+        await _db.SaveChangesAsync();
+
         return Ok(new { 
             mensagem = "Opção atualizada!", 
-            opcaoNoBanco 
+            opcao = opcaoNoBanco 
         });
-    }
-
-    [HttpDelete("deletar/{id}")]
-    public IActionResult DeletarOpcao(int id)
-    {
-        var opcao = _db.Opcoes.Find(id);
-
-        if (opcao == null) return NotFound("Opção não encontrada.");
-
-        _db.Opcoes.Remove(opcao);
-        _db.SaveChanges();
-
-        return Ok(new { mensagem = "Opção removida com sucesso!" });
     }
 }

@@ -1,57 +1,35 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using backend.Data;
+﻿using backend.Data;
+using backend.DTOs;
 using backend.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Controllers;
 
-[ApiController]
-[Route("api/[controller]")]
-public class TerapeutaController : ControllerBase
+public class TerapeutaController : CrudController<Terapeuta>
 {
-    private readonly AppDbContext _db;
+    public TerapeutaController(AppDbContext db) : base(db)
+    { }
 
-    // construtor
-    public TerapeutaController(AppDbContext db)
+    [NonAction]
+    public override Task<IActionResult> Criar([FromBody] Terapeuta entidade)
     {
-        // inicializa o banco sempre que o controller for chamado
-        _db = db;
+        return base.Criar(entidade);
     }
 
     [HttpPost("inserir")]
-    public IActionResult CriarTerapeuta(Terapeuta terapeuta)
+    public async Task<IActionResult> CriarTerapeuta([FromBody] TerapeutaCadastroDto terapeutaDto)
     {
-        _db.Terapeutas.Add(terapeuta);
-        _db.SaveChanges();
-
-        // retorna status 201
-        return Created(string.Empty, 
-            new
-            {
-                mensagem = "Terapeuta criado com sucesso",
-                terapeuta = terapeuta
-            });
-    }
-
-    [HttpGet("listar")]
-    public IActionResult ListarTerapeuta()
+        var terapeuta = new Terapeuta
         {
-            var lista = _db.Terapeutas.ToList();
+            NomeCompleto = terapeutaDto.NomeCompleto,
+            Sexo = terapeutaDto.Sexo,
+            NumeroLicenca = terapeutaDto.NumeroLicenca,
+            Especializacao = terapeutaDto.Especializacao,
+            Email = terapeutaDto.Email,
+            NumeroCelular = terapeutaDto.NumeroCelular,
+            SenhaHash = terapeutaDto.Senha 
+        };
 
-            return Ok(lista);
-        }
-
-    [HttpDelete("deletar/{id}")]
-    public IActionResult DeletarTerapeuta([FromRoute] int id)
-    {
-        var terapeuta = _db.Terapeutas.Find(id);
-
-        if (terapeuta == null)
-        {
-            return NotFound("Terapeuta não encontrado (a).");
-        }
-
-        _db.Remove(terapeuta);
-        _db.SaveChanges();
-        return Ok();
+        return await base.Criar(terapeuta);
     }
 }

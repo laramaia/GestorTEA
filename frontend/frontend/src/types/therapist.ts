@@ -10,6 +10,7 @@ export interface Therapist {
 
 export interface TherapistCreatePayload {
   nomeCompleto: string;
+  sexo: number;
   numeroLicenca: string;
   especializacao: string;
   email: string;

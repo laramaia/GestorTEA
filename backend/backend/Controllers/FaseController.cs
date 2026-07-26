@@ -1,60 +1,64 @@
 ﻿using backend.Data;
+using backend.DTOs;
 using backend.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace backend.Controllers;
 
-[ApiController]
-[Route("api/[controller]")]
-public class FaseController : Controller
+public class FaseController : CrudController<Fase>
 {
-    private readonly AppDbContext _db;
+    public FaseController(AppDbContext db) : base(db)
+    { }
 
-    public FaseController(AppDbContext db)
+    [HttpGet("listar")]
+    public override async Task<IActionResult> ObterTodos()
     {
-        _db = db;
+        var fases = await _db.Fases
+            .Include(f => f.Opcoes)
+            .AsNoTracking()
+            .ToListAsync();
+
+        return Ok(fases);
+    }
+
+    [NonAction]
+    public override Task<IActionResult> Criar([FromBody] Fase entidade)
+    {
+        return base.Criar(entidade);
     }
 
     [HttpPost("inserir")]
-    public async Task<IActionResult> CriarFase([FromBody] Fase fase)
+    public async Task<IActionResult> CriarFase([FromBody] FaseCadastroDto dto)
     {
-        var opcoesParaSalvar = fase.Opcoes;
-        fase.Opcoes = new List<Opcao>();
-
-        await _db.Fases.AddAsync(fase);
-        await _db.SaveChangesAsync();
-        if (opcoesParaSalvar != null && opcoesParaSalvar.Any())
+        var novaFase = new Fase
         {
-            foreach (var opcao in opcoesParaSalvar)
+            Ordem = dto.Ordem,
+            Nome = dto.Nome,
+            Enunciado = dto.Enunciado,
+            Ilustracao = dto.Ilustracao,
+            TotalEstrelas = dto.TotalEstrelas,
+            EstrelasParaAvancar = dto.EstrelasParaAvancar,
+            Opcoes = dto.Opcoes.Select(o => new Opcao
             {
-                opcao.FaseId = fase.FaseId; 
-            }
+                Texto = o.Texto,
+                EhCorreta = o.EhCorreta
+            }).ToList()
+        };
 
-            await _db.Opcoes.AddRangeAsync(opcoesParaSalvar);
-            await _db.SaveChangesAsync();
-        }
-
-        fase.Opcoes = opcoesParaSalvar;
-
+        await _db.Fases.AddAsync(novaFase);
+        await _db.SaveChangesAsync();
+        
         return Created(string.Empty, new
-        { 
-            mensagem = "Fase cadastrada com sucesso!", 
-            fase = fase
+        {
+            mensagem = "Fase cadastrada com sucesso!",
+            fase = novaFase
         });
     }
 
-    [HttpGet("listar")]
-    public IActionResult ListarFases()
+    [HttpDelete("deletar/{id:int}")]
+    public override async Task<IActionResult> Deletar(int id)
     {
-        var fases = _db.Fases.Include(f => f.Opcoes).ToList();
-        return Ok(fases);
-    }
-    
-    [HttpDelete("deletar/{id}")]
-    public async Task<IActionResult> DeletarFase(int id)
-    {
-        // 1. Busca a fase junto com as suas opções associadas
         var fase = await _db.Fases
             .Include(f => f.Opcoes)
             .FirstOrDefaultAsync(f => f.FaseId == id);
@@ -72,17 +76,16 @@ public class FaseController : Controller
             }
 
             _db.Fases.Remove(fase);
-        
             await _db.SaveChangesAsync();
 
             return Ok(new { mensagem = "Fase e suas alternativas excluídas com sucesso!" });
         }
         catch (Exception ex)
         {
-            return StatusCode(500, new 
-            { 
-                mensagem = "Erro interno ao tentar excluir a fase.", 
-                detalhes = ex.Message 
+            return StatusCode(500, new
+            {
+                mensagem = "Erro interno ao tentar excluir a fase.",
+                detalhes = ex.Message
             });
         }
     }

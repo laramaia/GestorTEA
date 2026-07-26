@@ -5,12 +5,13 @@ namespace backend.Models;
 
 public class Paciente
 {
+    [Key]
     public int PacienteId { get; set; }
     [MaxLength(500)]
     public string? FotoPerfil { get; set; }
     [Required(ErrorMessage = "Nome é obrigatório.")]
     public string NomeCompleto { get; set; } = string.Empty;
-    public SexoEnum  Sexo { get; set; }
+    public SexoEnum Sexo { get; set; }
     [MaxLength(11)]
     public string? Cpf { get; set; }
     public string Endereco { get; set; } = string.Empty;

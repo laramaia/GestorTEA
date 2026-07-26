@@ -30,6 +30,7 @@ export default function CreateTherapist() {
 
   const [form, setForm] = useState({
     nomeCompleto: "",
+    sexo: "1",
     numeroLicenca: "",
     especializacao: "",
     email: "",
@@ -38,7 +39,7 @@ export default function CreateTherapist() {
     repetirSenha: "",
   });
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
 
@@ -110,6 +111,7 @@ export default function CreateTherapist() {
 
     const payload: TherapistCreatePayload = {
       nomeCompleto: form.nomeCompleto,
+      sexo: Number(form.sexo),
       numeroLicenca: form.numeroLicenca,
       especializacao: form.especializacao,
       email: form.email,
@@ -125,6 +127,8 @@ export default function CreateTherapist() {
         message: `${form.nomeCompleto.split(" ")[0]} foi cadastrado com sucesso no sistema.`,
       });
     } catch (err: any) {
+      console.log("Status do erro:", err.response?.status);
+  console.log("Detalhes da validação (Backend):", err.response?.data);
       console.error("Erro na requisição:", err.response?.data || err);
       setFeedback({
         type: "error",
@@ -168,7 +172,7 @@ export default function CreateTherapist() {
           <div className={styles.modal_content}>
             <div className={styles.therapist_form}>
               <div className={styles.form_group}>
-                <label>Nome do terapeuta</label>
+                <label>Nome Completo</label>
                 <Input
                   type="text"
                   name="nomeCompleto"
@@ -181,6 +185,20 @@ export default function CreateTherapist() {
                     {fieldErrors.nomeCompleto}
                   </span>
                 )}
+              </div>
+
+              <div className={styles.form_group}>
+                <label>Sexo</label>
+                <select
+                  name="sexo"
+                  value={form.sexo}
+                  onChange={handleChange}
+                  className={styles.select_input}
+                  required
+                >
+                  <option value="1">Feminino</option>
+                  <option value="2">Masculino</option>
+                </select>
               </div>
 
               <div className={styles.form_group}>
