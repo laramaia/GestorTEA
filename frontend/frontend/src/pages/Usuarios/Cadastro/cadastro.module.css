@@ -141,12 +141,24 @@
 
 @media (max-width: 768px) {
   .card {
-    width: 100%;
-    max-width: 92vw;
-    padding: 28px;
+    width: 90vw; 
+    max-width: 480px;
+    min-height: auto; 
+    padding: 30px 24px; 
+    border-radius: 20px;
   }
 
   .title {
     font-size: 22px;
+    margin-bottom: 20px;
+  }
+
+  .form {
+    gap: 16px; 
+  }
+
+  .card::after {
+    height: 25px;
+    bottom: -15px; 
   }
 }

@@ -107,27 +107,54 @@
   padding: 12px 32px;
 }
 
-@media (max-width: 1024px) {
-  .add_therapist_modal {
-    max-width: 70vw;
-  }
-}
+
 
 @media (max-width: 768px) {
+  .modal_overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5); 
+    z-index: 9999; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
   .add_therapist_modal {
-    width: 100%;
-    max-width: 92vw;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); 
+    width: 90vw;
+    max-width: 420px;
+    max-height: 95vh;
     padding: 20px;
-    max-height: 90vh;
-    overflow-y: auto;
+    box-sizing: border-box;
+    z-index: 1000; 
+    background-color: var(--background-color-quarternary, #18192267); 
+    border-radius: var(--border-radius-lg, 12px);
+  }
+
+  .close_btn {
+    top: 20px;
+    right: 20px;
   }
 
   .modal_title {
     font-size: 20px;
-    margin-bottom: 28px;
+    margin-bottom: 25px;
+    text-align: center;
   }
 
   .modal_content {
-    gap: 0;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .modal_footer button {
+    width: 100%; 
   }
 }

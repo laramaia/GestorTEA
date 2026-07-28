@@ -95,11 +95,24 @@
 
 @media (max-width: 768px) {
   .card {
-    max-width: 92vw;
-    padding: 28px;
+    width: 90vw; 
+    max-width: 390px;
+    min-height: auto; 
+    padding: 30px 24px; 
+    border-radius: 20px;
   }
 
   .title {
-    font-size: 24px;
+    font-size: 22px;
+    margin-bottom: 20px;
+  }
+
+  .form {
+    gap: 16px; 
+  }
+
+  .card::after {
+    height: 25px;
+    bottom: -15px; 
   }
 }

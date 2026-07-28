@@ -151,38 +151,26 @@
   padding: 12px 32px;
 }
 
-@media (max-width: 1024px) {
-  .add_patient_modal {
-    width: 100%;
-    max-width: 85vw;
-  }
-
-  .modal_content {
-    gap: 32px;
-  }
-}
-
-@media (max-width: 820px) {
-  .modal_content {
-    flex-direction: column-reverse;
-  }
-
-  .photo_upload_section {
-    width: 100%;
-  }
-
-  .photo_placeholder {
-    width: 140px;
-    height: 140px;
-  }
-}
-
 @media (max-width: 768px) {
+  .modal_overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5); 
+    display: flex;
+    justify-content: center; 
+    align-items: center;   
+    z-index: 1000;
+  }
+
   .add_patient_modal {
-    max-width: 92vw;
-    padding: 24px;
-    max-height: 90vh;
+    width: 78vw;
+    max-height: 80vh;
+    padding: 25px;
     overflow-y: auto;
+    box-sizing: border-box;
   }
 
   .modal_title {

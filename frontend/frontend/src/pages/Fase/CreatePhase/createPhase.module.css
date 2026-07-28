@@ -148,7 +148,7 @@
 @media (max-width: 768px) {
   .add_patient_modal {
     width: 100%;
-    max-width: 92vw;
+    max-width: 85vw;
     padding: 20px;
     max-height: 90vh;
     overflow-y: auto;
