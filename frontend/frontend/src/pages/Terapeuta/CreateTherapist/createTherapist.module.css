@@ -13,9 +13,10 @@
 .add_therapist_modal {
   background-color: var(--background-color-quarternary);
   border-radius: var(--border-radius-lg);
-  width: 500px;
-  max-width: 80vw;
-  padding: 40px;
+  width: 498px;
+  max-width: 40vw;
+  max-height: 96vh;
+  padding: 30px;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -72,10 +73,9 @@
   font-family: inherit;
   cursor: pointer;
   width: 100%;
-  appearance: none; /* Remove o estilo padrão do SO */
+  appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-  
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23a0aec0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>");
   background-repeat: no-repeat;
   background-position: right 16px center;
@@ -99,10 +99,35 @@
 .modal_footer {
   display: flex;
   justify-content: center;
-  margin-top: 40px;
+  margin-top: 15px;
 }
 
 .modal_footer button {
   width: fit-content;
   padding: 12px 32px;
+}
+
+@media (max-width: 1024px) {
+  .add_therapist_modal {
+    max-width: 70vw;
+  }
+}
+
+@media (max-width: 768px) {
+  .add_therapist_modal {
+    width: 100%;
+    max-width: 92vw;
+    padding: 20px;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  .modal_title {
+    font-size: 20px;
+    margin-bottom: 28px;
+  }
+
+  .modal_content {
+    gap: 0;
+  }
 }

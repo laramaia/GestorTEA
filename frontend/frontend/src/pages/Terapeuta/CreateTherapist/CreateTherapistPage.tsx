@@ -39,7 +39,9 @@ export default function CreateTherapist() {
     repetirSenha: "",
   });
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
 
@@ -57,23 +59,27 @@ export default function CreateTherapist() {
 
     if (!form.nomeCompleto.trim()) {
       errors.nomeCompleto = "Nome completo é obrigatório.";
-    } else if (form.nomeCompleto.trim().length > 100) {
-      errors.nomeCompleto = "O nome não pode exceder 100 caracteres.";
+    } else if (form.nomeCompleto.trim().length > 150) {
+      errors.nomeCompleto = "O nome não pode exceder 150 caracteres.";
     }
 
     if (!form.numeroLicenca.trim()) {
       errors.numeroLicenca = "Número de licença é obrigatório.";
+    } else if (form.numeroLicenca.trim().length > 15) {
+      errors.numeroLicenca = "A licença não pode ter mais de 15 caracteres.";
     }
 
     if (!form.especializacao.trim()) {
       errors.especializacao = "Especialização é obrigatória.";
     }
 
-    if (
-      form.numeroCelular.trim() &&
-      !TELEFONE_REGEX.test(form.numeroCelular.trim())
-    ) {
-      errors.numeroCelular = "Telefone inválido. Ex: (65) 91234-5678";
+    if (form.numeroCelular.trim()) {
+      const apenasDigitos = form.numeroCelular.replace(/\D/g, "");
+      if (apenasDigitos.length > 11) {
+        errors.numeroCelular = "O celular não pode ter mais de 11 dígitos.";
+      } else if (!TELEFONE_REGEX.test(form.numeroCelular.trim())) {
+        errors.numeroCelular = "Telefone inválido. Ex: (65) 91234-5678";
+      }
     }
 
     if (!form.email.trim()) {
@@ -127,14 +133,15 @@ export default function CreateTherapist() {
         message: `${form.nomeCompleto.split(" ")[0]} foi cadastrado com sucesso no sistema.`,
       });
     } catch (err: any) {
-      console.log("Status do erro:", err.response?.status);
-  console.log("Detalhes da validação (Backend):", err.response?.data);
       console.error("Erro na requisição:", err.response?.data || err);
+
+      const mensagemBackend = err.response?.data?.mensagem;
+
       setFeedback({
         type: "error",
-        message:
-          err.response?.data?.mensagem ||
-          "Não foi possível cadastrar o terapeuta. Verifique os dados e tente novamente.",
+        message: mensagemBackend
+          ? mensagemBackend
+          : "Não foi possível cadastrar o terapeuta. Verifique sua conexão do servidor e tente novamente.",
       });
     } finally {
       setLoading(false);
@@ -207,6 +214,7 @@ export default function CreateTherapist() {
                   type="text"
                   name="numeroLicenca"
                   value={form.numeroLicenca}
+                  maxLength={15}
                   onChange={handleChange}
                   required
                 />
@@ -240,6 +248,7 @@ export default function CreateTherapist() {
                   name="numeroCelular"
                   value={form.numeroCelular}
                   onChange={handleChange}
+                  maxLength={15}
                   placeholder="(65) 91234-5678"
                 />
                 {fieldErrors.numeroCelular && (

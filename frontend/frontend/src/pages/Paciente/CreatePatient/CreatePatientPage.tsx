@@ -4,6 +4,15 @@ import styles from "../CreatePatient/createPatient.module.css";
 import api from "../../../services/api";
 import Input from "../../../components/Input/input";
 import Button from "../../../components/Button/button";
+import FeedbackModal from "../../../components/FeedbackModal/feedBackModal";
+
+interface FormErrors {
+  nomeCompleto?: string;
+  dataNascimento?: string;
+  cpf?: string;
+}
+
+type Feedback = { type: "success" | "error"; message: string } | null;
 
 export default function CriarPacientes() {
   const navigate = useNavigate();
@@ -11,7 +20,8 @@ export default function CriarPacientes() {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
-  const [erro, setErro] = useState<string | null>(null);
+  const [feedback, setFeedback] = useState<Feedback>(null);
+  const [fieldErrors, setFieldErrors] = useState<FormErrors>({});
 
   const [form, setForm] = useState({
     nomeCompleto: "",
@@ -29,23 +39,48 @@ export default function CriarPacientes() {
     return `${digits.slice(0, 2)}/${digits.slice(2, 4)}/${digits.slice(4)}`;
   };
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+  const formatCpfInput = (value: string) => {
+    const digits = value.replace(/\D/g, "").slice(0, 11);
+
+    if (digits.length <= 3) return digits;
+    if (digits.length <= 6) return `${digits.slice(0, 3)}.${digits.slice(3)}`;
+    if (digits.length <= 9)
+      return `${digits.slice(0, 3)}.${digits.slice(3, 6)}.${digits.slice(6)}`;
+    return `${digits.slice(0, 3)}.${digits.slice(3, 6)}.${digits.slice(6, 9)}-${digits.slice(9)}`;
+  };
+
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) => {
+    const { name, value } = e.target;
+    setForm({ ...form, [name]: value });
+
+    if (fieldErrors[name as keyof FormErrors]) {
+      setFieldErrors({ ...fieldErrors, [name]: undefined });
+    }
+  };
+
+  const handleCpfChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const formatted = formatCpfInput(e.target.value);
+    setForm({ ...form, cpf: formatted });
+
+    if (fieldErrors.cpf) {
+      setFieldErrors({ ...fieldErrors, cpf: undefined });
+    }
   };
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
-  const file = e.target.files?.[0];
-  if (file) {
-    setSelectedFile(file); // Guarda o arquivo físico no estado
+    const file = e.target.files?.[0];
+    if (file) {
+      setSelectedFile(file);
 
-    // Para o preview da tela
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setImagePreview(reader.result as string);
-    };
-    reader.readAsDataURL(file);
-  }
-};
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   const handlePlaceholderClick = () => {
     fileInputRef.current?.click();
@@ -75,53 +110,106 @@ export default function CriarPacientes() {
       throw new Error("Data inválida");
     }
 
-    const mesFormatado = String(mesNum).padStart(2, '0');
-    const diaFormatado = String(diaNum).padStart(2, '0');
-    
+    const mesFormatado = String(mesNum).padStart(2, "0");
+    const diaFormatado = String(diaNum).padStart(2, "0");
+
     return `${anoNum}-${mesFormatado}-${diaFormatado}T00:00:00.000Z`;
   };
 
   const handleDateChange = (e: ChangeEvent<HTMLInputElement>) => {
     const formatted = formatDateInput(e.target.value);
     setForm({ ...form, dataNascimento: formatted });
+
+    if (fieldErrors.dataNascimento) {
+      setFieldErrors({ ...fieldErrors, dataNascimento: undefined });
+    }
+  };
+
+  const validarFormulario = (): FormErrors => {
+    const errors: FormErrors = {};
+
+    if (!form.nomeCompleto.trim()) {
+      errors.nomeCompleto = "Nome completo é obrigatório.";
+    } else if (form.nomeCompleto.trim().length > 150) {
+      errors.nomeCompleto = "O nome não pode exceder 150 caracteres.";
+    }
+
+    if (!form.dataNascimento.trim()) {
+      errors.dataNascimento = "Data de nascimento é obrigatória.";
+    } else {
+      try {
+        parseDataNascimento(form.dataNascimento);
+      } catch {
+        errors.dataNascimento = "Data inválida. Use uma data válida.";
+      }
+    }
+
+    if (form.cpf.trim()) {
+      const apenasDigitos = form.cpf.replace(/\D/g, "");
+      if (apenasDigitos.length > 11) {
+        errors.cpf = "O CPF não pode ter mais de 11 dígitos.";
+      } else if (apenasDigitos.length < 11) {
+        errors.cpf = "O CPF deve ter 11 dígitos.";
+      }
+    }
+
+    return errors;
   };
 
   const handleSubmit = async (e: FormEvent) => {
-  e.preventDefault();
-  setLoading(true);
-  setErro(null);
+    e.preventDefault();
 
-  try {
-    const dataNascimentoFormatada = parseDataNascimento(form.dataNascimento); 
-
-    const formData = new FormData();
-    formData.append("NomeCompleto", form.nomeCompleto);
-    formData.append("DataNascimento", dataNascimentoFormatada);
-    formData.append("Sexo", form.sexo);
-    if (form.cpf) formData.append("Cpf", form.cpf);
-    if (form.endereco) formData.append("Endereco", form.endereco);
-
-    if (selectedFile) {
-      formData.append("foto", selectedFile);
-      console.log("Arquivo anexado com sucesso:", selectedFile.name);
-    } else {
-      console.warn("Nenhum arquivo de imagem foi selecionado!");
+    const errors = validarFormulario();
+    if (Object.keys(errors).length > 0) {
+      setFieldErrors(errors);
+      return;
     }
 
-    await api.post("/Paciente/inserir", formData, {
-  headers: {
-    "Content-Type": "multipart/form-data",
-  },
-});
+    setFieldErrors({});
+    setLoading(true);
 
-    navigate("/pacientes");
-  } catch (err: any) {
-    console.error("Erro na requisição:", err.response?.data || err);
-    setErro("Erro ao cadastrar paciente. Verifique os dados e tente novamente.");
-  } finally {
-    setLoading(false);
-  }
-};
+    try {
+      const dataNascimentoFormatada = parseDataNascimento(form.dataNascimento);
+
+      const formData = new FormData();
+      formData.append("NomeCompleto", form.nomeCompleto);
+      formData.append("DataNascimento", dataNascimentoFormatada);
+      formData.append("Sexo", form.sexo);
+      if (form.cpf) formData.append("Cpf", form.cpf.replace(/\D/g, ""));
+      if (form.endereco) formData.append("Endereco", form.endereco);
+
+      if (selectedFile) {
+        formData.append("foto", selectedFile);
+      }
+
+      await api.post("/Paciente/inserir", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      setFeedback({
+        type: "success",
+        message: `${form.nomeCompleto.split(" ")[0]} foi cadastrado com sucesso no sistema.`,
+      });
+    } catch (err: any) {
+      console.error("Erro na requisição:", err.response?.data || err);
+      setFeedback({
+        type: "error",
+        message:
+          err.response?.data?.mensagem ||
+          "Não foi possível cadastrar o paciente. Verifique a conexão com o servidor e tente novamente.",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleFeedbackClose = () => {
+    const wasSuccess = feedback?.type === "success";
+    setFeedback(null);
+    if (wasSuccess) navigate("/pacientes");
+  };
 
   return (
     <div className={styles.modal_overlay}>
@@ -144,11 +232,9 @@ export default function CriarPacientes() {
 
         <h2 className={styles.modal_title}>Dados do paciente</h2>
 
-        {erro && <p style={{ color: "red", textAlign: "center" }}>{erro}</p>}
         <form onSubmit={handleSubmit} style={{ display: "contents" }}>
           <div className={styles.modal_content}>
             <div className={styles.patient_form}>
-              
               <div className={styles.form_group}>
                 <label>Nome do paciente</label>
                 <Input
@@ -158,6 +244,11 @@ export default function CriarPacientes() {
                   onChange={handleChange}
                   required
                 />
+                {fieldErrors.nomeCompleto && (
+                  <span style={{ color: "red", fontSize: "13px" }}>
+                    {fieldErrors.nomeCompleto}
+                  </span>
+                )}
               </div>
 
               <div className={styles.form_group}>
@@ -186,6 +277,11 @@ export default function CriarPacientes() {
                   maxLength={10}
                   required
                 />
+                {fieldErrors.dataNascimento && (
+                  <span style={{ color: "red", fontSize: "13px" }}>
+                    {fieldErrors.dataNascimento}
+                  </span>
+                )}
               </div>
 
               <div className={styles.form_group}>
@@ -194,9 +290,16 @@ export default function CriarPacientes() {
                   type="text"
                   name="cpf"
                   value={form.cpf}
-                  onChange={handleChange}
+                  onChange={handleCpfChange}
                   placeholder="000.000.000-00"
+                  inputMode="numeric"
+                  maxLength={14}
                 />
+                {fieldErrors.cpf && (
+                  <span style={{ color: "red", fontSize: "13px" }}>
+                    {fieldErrors.cpf}
+                  </span>
+                )}
               </div>
 
               <div className={styles.form_group}>
@@ -253,6 +356,20 @@ export default function CriarPacientes() {
           </div>
         </form>
       </div>
+
+      {feedback && (
+        <FeedbackModal
+          type={feedback.type}
+          title={
+            feedback.type === "success" ? "Sucesso!" : "Ops, algo deu errado"
+          }
+          message={feedback.message}
+          buttonText={
+            feedback.type === "success" ? "Concluído" : "Tentar novamente"
+          }
+          onClose={handleFeedbackClose}
+        />
+      )}
     </div>
   );
 }
