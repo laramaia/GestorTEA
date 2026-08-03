@@ -158,17 +158,17 @@
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: rgba(0, 0, 0, 0.5); 
+    background: rgba(0, 0, 0, 0.5);
     display: flex;
-    justify-content: center; 
-    align-items: center;   
+    justify-content: center;
+    align-items: center;
     z-index: 1000;
   }
 
   .add_patient_modal {
-    width: 78vw;
-    max-height: 80vh;
-    padding: 25px;
+    width: 75vw;
+    max-height: 90vh;
+    padding: 15px;
     overflow-y: auto;
     box-sizing: border-box;
   }

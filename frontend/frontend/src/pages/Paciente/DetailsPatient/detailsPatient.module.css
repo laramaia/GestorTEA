@@ -240,16 +240,115 @@
 }
 
 @media (max-width: 768px) {
+  .modal_overlay {
+    padding: 12px;
+  }
+
+  .patient_detail_modal {
+    width: 100%;
+    height: 510px;
+    width: 590px;
+    border-radius: 16px;
+  }
+
+  .close_btn {
+    top: 12px;
+    right: 12px;
+  }
+
+  .detail_layout {
+    flex-direction: row;
+  }
+
+  .profile_sidebar {
+    width: 220px;
+    padding: 20px 16px;
+    border-radius: 0 24px 24px 0;
+  }
+
+  .profile_large_avatar {
+    width: 90px;
+    height: 90px;
+  }
+
+  .profile_name {
+    font-size: 1.15rem;
+    margin: 10px 0 4px;
+  }
+
+  .profile_description {
+    font-size: 0.72rem;
+    margin-bottom: 16px;
+  }
+
+  .profile_info_group {
+    margin-bottom: 10px;
+  }
+
+  .profile_info_group h4 {
+    font-size: 0.78rem;
+    margin-bottom: 2px;
+  }
+
+  .profile_info_group p {
+    font-size: 0.75rem;
+  }
+
+  .edit_profile_btn {
+    padding: 8px 20px;
+    font-size: 0.8rem;
+  }
+
+  /* Conteúdo à direita */
   .detail_content {
-    padding: 20px;
+    padding: 24px;
   }
 
   .tabs_nav {
     gap: 24px;
-    overflow-x: auto;
+    margin-bottom: 20px;
+  }
+
+  .tabs_nav button {
+    font-size: 0.95rem;
+    white-space: nowrap;
+    padding-bottom: 8px;
+  }
+
+  .info_section {
+    margin-bottom: 16px;
+  }
+
+  .info_section h4 {
+    font-size: 0.85rem;
+    margin-bottom: 6px;
+  }
+
+  .info_section p {
+    font-size: 0.8rem;
+    line-height: 1.4;
+  }
+
+  .progress_bar_large {
+    height: 20px;
+    border-radius: 10px;
+  }
+
+  .progress_fill_large {
+    font-size: 0.72rem;
   }
 
   .chart_placeholder {
-    height: 140px;
+    height: 130px;
+    border-radius: 12px;
+  }
+
+  .action_footer {
+    text-align: right;
+  }
+
+  .primary_btn {
+    padding: 10px 20px;
+    font-size: 0.85rem;
   }
 }

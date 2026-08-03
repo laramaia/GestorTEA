@@ -66,17 +66,29 @@
   border-spacing: 0 10px;
   color: var(--text-primary);
 }
+
 .table th {
   color: #cbc9f0;
   font-size: 0.75rem;
   padding: 0 2rem 0.5rem;
   text-align: left;
 }
+
+/* 🔴 Alinha o texto "Nome do paciente" com o nome real, não com a foto */
+.table th:first-child {
+  padding-left: calc(
+    2rem + 60px + 12px
+  ); /* padding original + largura da foto + gap */
+}
+
 .table td {
   padding: 0.5rem;
   background-color: var(--background-color-tertiary);
   vertical-align: middle;
+  height: 76px; /* 🔴 altura mínima consistente pra todas as células da linha */
+  box-sizing: border-box;
 }
+
 .table tr td:first-child {
   border-radius: 10px 0 0 10px;
 }
@@ -88,18 +100,21 @@
   display: flex;
   align-items: center;
   gap: 12px;
+  height: 100%; /* 🔴 garante que a foto+nome ocupem toda a altura da célula */
 }
 .patientCell img {
   width: 60px;
   height: 60px;
   border-radius: 50%;
   object-fit: cover;
+  flex-shrink: 0;
 }
 
 .progressContainer {
   display: flex;
   align-items: center;
   gap: 10px;
+  height: 100%;
 }
 .progressBar {
   width: 150px;
@@ -114,27 +129,52 @@
 }
 
 .actions {
-  display: flex;
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
   gap: 10px;
   justify-content: flex-end;
-  align-items: center;
+  align-items: center !important;
+  height: 100%;
+  transform: translateY(-15px);
 }
+
 .resultBtn {
   background: rgba(108, 92, 231, 0.1);
   color: #6c5ce7;
   border: 1px solid #6c5ce7;
-  padding: 6px 16px;
+  padding: 4px 16px;
   border-radius: 6px;
   cursor: pointer;
+  line-height: 1;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
 }
 
-.editBtn {
+.editBtn,
+.deleteBtn {
   background: transparent;
   border: none;
   color: #888;
   font-size: 1.2rem;
   cursor: pointer;
-  display: flex;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  flex-shrink: 0;
+  padding: 0;
+  margin: 0;
+  height: 32px;
+  width: 32px;
+}
+
+.editBtn svg,
+.deleteBtn svg {
+  display: block !important;
+  margin: 0 auto !important;
 }
 
 .pagination {
@@ -159,7 +199,6 @@
   border-radius: 4px;
   font-weight: bold;
 }
-
 @media (max-width: 1024px) {
   .searchWrapper {
     width: 200px;
@@ -189,90 +228,128 @@
     width: 100px;
   }
 }
-
 @media (max-width: 768px) {
-  .topHeader {
-    display: flex;
-    flex-direction: row; 
-    justify-content: space-between; 
-    align-items: center; 
-    width: 100%;
-    margin-bottom: 1.0rem;
-    gap: 10px;
-  }
-
-  .topHeader h1, 
-  .topHeader h2 {
-    font-size: 1.4rem; 
-    margin: 0;
-  }
-
-  .addBtn {
-    padding: 0.8rem 1rem; 
-    font-size: 0.85rem;
-    white-space: nowrap; 
-  }
-
   .tableCard {
-    background-color: var(--background-color-tertiary);
-    border-radius: 12px;
-    padding: 1rem;
-    width: 100%;
-    box-sizing: border-box;
+    overflow-x: visible !important;
   }
-
-  .tableHeader {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    width: 100%;
-    gap: 12px;
-  }
-
-  .filterArea {
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    gap: 8px;
-    align-items: center;
-  }
-
-  .searchWrapper {
-    flex: 1;
-    width: auto;
-  }
-
-  .selectFilter {
-    background-color: var(--background-color-tertiary);
-    color: var(--text-color);
-    border: 1px solid var(--border-color);
-    padding: 8px;
-    border-radius: 8px;
-    outline: none;
-    font-size: 0.8rem;
-    flex: 1;
-  }
-
   .titleArea h2 {
-    font-size: 1.1rem;
+    font-size: 1rem;
   }
-
   .titleArea p {
-    font-size: 0.8rem;
+    font-size: 0.7em;
+    margin-bottom: 8px;
   }
-
   .table {
-    min-width: 100%;
+    display: grid !important;
+    grid-template-columns: 0.8fr 0.8fr 0.8fr auto !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    column-gap: 6px !important;
+    row-gap: 8px !important;
+  }
+  .table thead,
+  .table tbody,
+  .table tr {
+    display: contents !important;
+  }
+  .table th {
+    font-size: 0.6rem;
+    color: #cbc9f0;
+    text-transform: uppercase;
+    white-space: nowrap;
+    text-align: left;
+    padding: 0 6px 8px 2px !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .table th:last-child {
+    text-align: right;
+  }
+  .table td {
+    padding: 8px 2px !important;
+    font-size: 0.6em;
+    display: flex !important;
+    align-items: center !important;
+    background-color: transparent !important;
+    white-space: nowrap;
+    box-sizing: border-box;
+    overflow: hidden;
+    min-width: 0 !important;
+  }
+  .patientCell {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    min-width: 0 !important;
+  }
+  .patientCell img {
+    width: 40px !important;
+    height: 40px !important;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+  .patientCell span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-width: 0;
   }
 
-  .table th {
-    font-size: 0.7rem;
-    padding: 0 6px 8px 6px;
+  .progressContainer {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 8px !important;
+    width: 100% !important;
+  }
+
+  .progressBar {
+    width: 100% !important;
+    max-width: 70px !important;
+    height: 6px !important;
+    flex-shrink: 0;
+  }
+
+  .progressContainer span {
+    font-size: 0.75rem !important;
     white-space: nowrap;
   }
 
-  .table td {
-    padding: 0.5rem 6px;
-    font-size: 0.8rem;
+  .table tr td:last-child {
+    display: flex !important;
+    justify-content: flex-end !important;
+    width: 100% !important;
+    padding: 0 !important;
+  }
+  .actions {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    gap: 10px;
+    justify-content: flex-end;
+    align-items: center !important;
+    height: 100%;
+    transform: translateY(-2px);
+  }
+
+  .resultBtn {
+    padding: 5px 10px !important;
+    font-size: 0.75rem !important;
+    white-space: nowrap;
+    margin: 0 !important;
+    display: inline-block !important;
+  }
+  .editBtn {
+    font-size: 1.1rem !important;
+    cursor: pointer;
+    display: flex !important;
+    align-items: center !important;
+    margin: 0 !important;
+    padding: 3px !important;
+  }
+  .table tr td:last-child button,
+  .table tr td:last-child svg {
+    margin: 0 !important;
   }
 }
