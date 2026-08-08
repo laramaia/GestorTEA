@@ -1,6 +1,7 @@
 import axios from "axios";
+const BASE_URL =
+  import.meta.env.VITE_API_URL || "https://gestortea.onrender.com/api";
 
-const BASE_URL = "http://localhost:5055/api";
 const api = axios.create({
   baseURL: BASE_URL,
 });
@@ -12,6 +13,7 @@ api.interceptors.request.use((config) => {
   }
   return config;
 });
+
 api.interceptors.response.use(
   (response) => response,
   (error) => {
