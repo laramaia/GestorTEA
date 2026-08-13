@@ -1,6 +1,13 @@
 import axios from "axios";
-const BASE_URL =
-  import.meta.env.VITE_API_URL || "https://gestortea.onrender.com/api";
+
+const CONFIGS = {
+  RIDER: "http://localhost:5055/api",
+  VISUAL_STUDIO: "https://localhost:7230/api",
+  RENDER: "https://gestortea.onrender.com/api"
+};
+
+
+const BASE_URL = import.meta.env.VITE_API_URL || CONFIGS.RIDER;
 
 const api = axios.create({
   baseURL: BASE_URL,
