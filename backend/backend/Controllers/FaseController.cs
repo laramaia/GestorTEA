@@ -29,14 +29,35 @@ public class FaseController : CrudController<Fase>
     }
 
     [HttpPost("inserir")]
-    public async Task<IActionResult> CriarFase([FromBody] FaseCadastroDto dto)
+    public async Task<IActionResult> CriarFase([FromForm] FaseCadastroDto dto)
     {
+        string caminhoIlustracao = string.Empty;
+
+        if (dto.Ilustracao != null && dto.Ilustracao.Length > 0)
+        {
+            var pasta = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "ilustracoes-fases");
+            if (!Directory.Exists(pasta))
+            {
+                Directory.CreateDirectory(pasta);
+            }
+
+            var nomeArquivo = $"{Guid.NewGuid()}{Path.GetExtension(dto.Ilustracao.FileName)}";
+            var caminhoAbsoluto = Path.Combine(pasta, nomeArquivo);
+
+            await using (var stream = new FileStream(caminhoAbsoluto, FileMode.Create))
+            {
+                await dto.Ilustracao.CopyToAsync(stream);
+            }
+
+            caminhoIlustracao = $"/ilustracoes-fases/{nomeArquivo}";
+        }
+
         var novaFase = new Fase
         {
             Ordem = dto.Ordem,
             Nome = dto.Nome,
             Enunciado = dto.Enunciado,
-            Ilustracao = dto.Ilustracao,
+            Ilustracao = caminhoIlustracao,
             TotalEstrelas = dto.TotalEstrelas,
             EstrelasParaAvancar = dto.EstrelasParaAvancar,
             Opcoes = dto.Opcoes.Select(o => new Opcao
@@ -70,7 +91,16 @@ public class FaseController : CrudController<Fase>
 
         try
         {
-            if (fase.Opcoes != null && fase.Opcoes.Any())
+            if (!string.IsNullOrEmpty(fase.Ilustracao))
+            {
+                var caminhoArquivo = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", fase.Ilustracao.TrimStart('/'));
+                if (System.IO.File.Exists(caminhoArquivo))
+                {
+                    System.IO.File.Delete(caminhoArquivo);
+                }
+            }
+
+            if (fase.Opcoes.Any())
             {
                 _db.Opcoes.RemoveRange(fase.Opcoes);
             }

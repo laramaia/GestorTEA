@@ -30,7 +30,7 @@ public class PacienteController : CrudController<Paciente>
             var nomeArquivo = $"{Guid.NewGuid()}{Path.GetExtension(dto.Foto.FileName)}";
             var caminhoAbsoluto = Path.Combine(pasta, nomeArquivo);
 
-            using (var stream = new FileStream(caminhoAbsoluto, FileMode.Create))
+            await using (var stream = new FileStream(caminhoAbsoluto, FileMode.Create))
             {
                 await dto.Foto.CopyToAsync(stream);
             }

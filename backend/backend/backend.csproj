@@ -17,6 +17,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Folder Include="wwwroot\ilustracoes_fases\" />
 	  <Folder Include="wwwroot\uploads\" />
 	</ItemGroup>
 	
