@@ -9,7 +9,7 @@ const CONFIGS = {
 
 const BASE_URL =
   import.meta.env.VITE_API_URL ||
-  (import.meta.env.PROD ? CONFIGS.RENDER : CONFIGS.RIDER);
+  (import.meta.env.PROD ? CONFIGS.RENDER : CONFIGS.VISUAL_STUDIO);
 
 const api = axios.create({
   baseURL: BASE_URL,

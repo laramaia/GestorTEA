@@ -20,7 +20,7 @@ const getImageUrl = (path?: string) => {
     return path; 
   }
   
-  const API_BASE_URL = "http://localhost:5055"; 
+  const API_BASE_URL = "https://gestortea.onrender.com/api"; 
   return `${API_BASE_URL}${path.startsWith("/") ? path : `/${path}`}`;
 };
 
@@ -41,7 +41,7 @@ export default function ListPatient() {
     if (!confirm("Tem certeza que deseja excluir este paciente?")) return;
 
     try {
-      await api.delete(`/Paciente/deletar/${id}`);
+      await api.delete(`https://gestortea.onrender.com/api/Paciente/deletar/${id}`);
       window.location.reload();
     } catch (err) {
       console.error("Erro ao deletar paciente:", err);

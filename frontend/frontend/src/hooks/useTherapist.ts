@@ -12,7 +12,7 @@ export function useTherapist(pageSize: number) {
     async function fetchTherapists() {
       try {
         setLoading(true);
-        const response = await api.get<Therapist[]>("/Terapeuta/listar");
+        const response = await api.get<Therapist[]>("https://gestortea.onrender.com/api/Terapeuta/listar");
         setTherapists(response.data);
       } catch (error) {
         console.error("Erro ao buscar terapeutas:", error);
