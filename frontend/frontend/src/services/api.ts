@@ -1,6 +1,5 @@
 import axios from "axios";
 
-// Centraliza as portas locais e o endereço de produção
 const CONFIGS = {
   RIDER: "http://localhost:5055/api",
   VISUAL_STUDIO: "https://localhost:7230/api",
@@ -9,7 +8,7 @@ const CONFIGS = {
 
 const BASE_URL =
   import.meta.env.VITE_API_URL ||
-  (import.meta.env.PROD ? CONFIGS.RENDER : CONFIGS.VISUAL_STUDIO);
+  (import.meta.env.PROD ? CONFIGS.RENDER : CONFIGS.RIDER);
 
 const api = axios.create({
   baseURL: BASE_URL,
