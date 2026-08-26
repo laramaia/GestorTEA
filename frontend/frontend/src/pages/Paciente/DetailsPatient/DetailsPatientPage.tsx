@@ -181,8 +181,9 @@ export default function DetailsPatient() {
                   <div className={styles.action_footer}>
                     <button
                       className={styles.primary_btn}
-                      onClick={() => navigate("/game")}
-                    >
+                      onClick={() => {
+                        window.location.href = `http://localhost:5173/?pacienteId=${patient.pacienteId}`;
+                      }}>
                       Iniciar atividade
                     </button>
                   </div>

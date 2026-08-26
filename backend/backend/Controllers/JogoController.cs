@@ -91,7 +91,5 @@ public class JogoController : ControllerBase
                 : 0,
             HistoricoFases = progresso
         });
-        
-        return Ok(progresso);
     }
 }
