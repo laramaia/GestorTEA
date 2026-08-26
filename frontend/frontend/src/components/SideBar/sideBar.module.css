@@ -9,7 +9,7 @@
 }
 
 .title {
-  font-size: 18px;
+  font-size: 24px;
   margin-bottom: 24px;
   font-weight: bold;
 }
@@ -28,6 +28,7 @@
   gap: 5px;
   cursor: pointer;
   transition: 0.2s;
+  font-size: 20px;
   color: #c8c8c8;
 }
 
@@ -42,7 +43,7 @@
 }
 
 .icon {
-  font-size: 20px;
+  font-size: 24px;
   justify-content: center;
   display: flex;
 }
