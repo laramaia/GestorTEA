@@ -64,10 +64,8 @@ export default function EditTherapist() {
     setLoading(true);
 
     try {
-      // apaga o registro antigo...
       await api.delete(`/Terapeuta/deletar/${id}`);
 
-      // ...e cria um novo com os dados editados
       await api.post("/Terapeuta/inserir", {
         nomeCompleto: form.nomeCompleto,
         numeroLicenca: form.numeroLicenca,

@@ -182,7 +182,7 @@ export default function CriarPacientes() {
         formData.append("foto", selectedFile);
       }
 
-      await api.post("/Paciente/inserir", formData, {
+      await api.post("Paciente/inserir", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

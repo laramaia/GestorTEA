@@ -41,7 +41,7 @@ export default function ListPatient() {
     if (!confirm("Tem certeza que deseja excluir este paciente?")) return;
 
     try {
-      await api.delete(`/Paciente/deletar/${id}`);
+      await api.delete(`Paciente/deletar/${id}`);
       window.location.reload();
     } catch (err) {
       console.error("Erro ao deletar paciente:", err);

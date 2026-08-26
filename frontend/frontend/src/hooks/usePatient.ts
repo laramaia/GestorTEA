@@ -11,7 +11,7 @@ export function usePatients(itemsPerPage: number = 5) {
   useEffect(() => {
     async function fetchPatients() {
       try {
-        const response = await api.get("/Paciente/listar");
+        const response = await api.get("Paciente/listar");
         const data = response.data.map((p: any) => ({
           id: String(p.pacienteId),
           name: p.nomeCompleto,
