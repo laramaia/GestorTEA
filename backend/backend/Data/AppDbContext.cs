@@ -16,7 +16,7 @@ public class AppDbContext: DbContext
     public DbSet<Paciente> Pacientes { get; set; }
     public DbSet<Fase> Fases { get; set; }
     public DbSet<Opcao> Opcoes { get; set; }
-    public DbSet<ProgressoJogo> Progressos { get; set; }
+    public DbSet<ProgressoJogo> ProgressoJogos { get; set; }
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

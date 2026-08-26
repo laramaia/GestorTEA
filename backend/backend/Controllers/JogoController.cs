@@ -15,12 +15,15 @@ public class JogoController : ControllerBase
 
     // iniciar fase
     [HttpGet("iniciar/{pacienteId}/{faseId}")]
-    public IActionResult IniciarFase(int pacienteId, int faseId)
+    public async Task<IActionResult> IniciarFase(int pacienteId, int faseId)
     {
         var paciente = _db.Pacientes.Find(pacienteId);
-        var fase = _db.Fases.Include(f => f.Opcoes).FirstOrDefault(f => f.FaseId == faseId);
+        var fase = _db.Fases
+            .Include(f => f.Opcoes)
+            .FirstOrDefault(f => f.FaseId == faseId);
 
-        if (paciente == null || fase == null) return NotFound("Paciente ou Fase não encontrada.");
+        if (paciente == null || fase == null) 
+            return NotFound("Paciente ou Fase não encontrada.");
 
         // retorno para front
         return Ok(new
@@ -33,7 +36,7 @@ public class JogoController : ControllerBase
     }
 
     [HttpPost("finalizar")]
-    public IActionResult FinalizarFase([FromBody] ProgressoJogo resultado)
+    public async Task<IActionResult> FinalizarFase([FromBody] ProgressoJogo resultado)
     {
         // Valida existencia de paciente e fase
         var existePaciente = _db.Pacientes.Any(p => p.PacienteId == resultado.PacienteId);
@@ -44,7 +47,7 @@ public class JogoController : ControllerBase
             return BadRequest("Dados inválidos: Paciente ou Fase não encontrados.");
         }
 
-        var progressoExistente = _db.Progressos
+        var progressoExistente = _db.ProgressoJogos
         .FirstOrDefault(p => p.PacienteId == resultado.PacienteId && p.FaseId == resultado.FaseId);
 
         if (progressoExistente != null)
@@ -60,11 +63,35 @@ public class JogoController : ControllerBase
         {
             // Se não existe, cria um novo resultado
             resultado.DataConclusao = DateTime.UtcNow;
-            _db.Progressos.Add(resultado);
+            _db.ProgressoJogos.Add(resultado);
         }
 
         _db.SaveChanges();
 
         return Ok(new { mensagem = "Progresso salvo!" });
+    }
+    
+    [HttpGet("progresso/paciente/{pacienteId:int}")]
+    public async Task<IActionResult> ObterProgressoPorPaciente(int pacienteId)
+    {
+        var progresso = await _db.ProgressoJogos
+            .AsNoTracking()
+            .Where(p => p.PacienteId == pacienteId)
+            .OrderBy(p => p.FaseId)
+            .ToListAsync();
+        
+        var totalFasesExistentes = await _db.Fases.CountAsync();
+        
+        return Ok(new
+        {
+            TotalFasesJogo = totalFasesExistentes,
+            FasesConcluidas = progresso.Count,
+            PercentualConcluido = totalFasesExistentes > 0 
+                ? Math.Round((double)progresso.Count / totalFasesExistentes * 100, 2) 
+                : 0,
+            HistoricoFases = progresso
+        });
+        
+        return Ok(progresso);
     }
 }

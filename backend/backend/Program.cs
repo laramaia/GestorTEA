@@ -46,7 +46,10 @@ builder.Services.AddCors(options =>
         policy =>
         {
             policy
-                .WithOrigins("http://localhost:3000", "http://localhost:5173", "https://desenvolve-tea.vercel.app")
+                .WithOrigins("http://localhost:3000", 
+                    "http://localhost:5173",
+                    "http://127.0.0.1/51264",
+                    "https://desenvolve-tea.vercel.app")
                 .AllowAnyHeader()
                 .AllowAnyMethod();
         });
