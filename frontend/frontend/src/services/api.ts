@@ -6,7 +6,6 @@ const CONFIGS = {
   RENDER: "https://gestortea.onrender.com/api"
 };
 
-
 const BASE_URL = import.meta.env.VITE_API_URL || CONFIGS.RIDER;
 
 const api = axios.create({
