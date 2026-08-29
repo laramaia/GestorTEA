@@ -1,5 +1,6 @@
 using backend.Data;
 using backend.Services;
+using backend.Models; 
 using Microsoft.EntityFrameworkCore;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -7,15 +8,15 @@ using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddDbContext<AppDbContext>(options => 
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddScoped<AuthService>();
-var chaveSecreta = builder.Configuration["JwtSettings:SecretKey"] ?? throw new ArgumentNullException("Chave JWT n�o configurada.");
+
+var chaveSecreta = builder.Configuration["JwtSettings:SecretKey"] ?? throw new ArgumentNullException("Chave JWT não configurada.");
 var key = Encoding.ASCII.GetBytes(chaveSecreta);
 
 builder.Services.AddAuthentication(options =>
@@ -57,7 +58,23 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        var context = services.GetRequiredService<AppDbContext>();
+        var authService = services.GetRequiredService<AuthService>();
+        context.Database.Migrate();
+        DbInitializer.SeedAdmin(context, authService);
+    }
+    catch (Exception ex)
+    {
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "Ocorreu um erro ao popular o banco de dados.");
+    }
+}
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -73,13 +90,33 @@ app.UseStaticFiles(new StaticFileOptions
     ContentTypeProvider = provider
 });
 
-//app.UseHttpsRedirection();
 app.UseRouting();
 
 app.UseCors("AllowFrontend");
 
+app.UseAuthentication(); 
 app.UseAuthorization();
 
 app.MapControllers();
 
 app.Run();
+
+public static class DbInitializer
+{
+    public static void SeedAdmin(AppDbContext context, AuthService authService)
+    {
+        if (!context.Usuarios.Any(u => u.Email == "admin@gmail.com"))
+        {
+            var admin = new Admin
+            {
+                NomeCompleto = "Administrador",
+                Email = "admin@gmail.com",
+                SenhaHash = authService.CriarSenhaHash("Admin123"),
+                Ativo = true,
+            };
+
+            context.Admins.Add(admin);
+            context.SaveChanges();
+        }
+    }
+}
