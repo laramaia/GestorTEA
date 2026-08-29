@@ -67,7 +67,8 @@ export default function ListTherapists() {
             </thead>
             <tbody>
               {currentItems.map((therapist) => (
-                <tr key={therapist.terapeutaId}>
+                // Garanta que o terapeutaId seja preenchido e único vindo da API
+                <tr key={therapist.terapeutaId || therapist.id}>
                   <td className={styles.nameCell}>{therapist.nomeCompleto}</td>
                   <td>{therapist.numeroCelular || "-"}</td>
                   <td>{therapist.email || "-"}</td>
@@ -75,7 +76,8 @@ export default function ListTherapists() {
                     <button
                       className={styles.editBtn}
                       onClick={() =>
-                        navigate(`/terapeutas/create/${therapist.terapeutaId}`)
+                        // Ajustado para refletir a rota correta do App.tsx (/terapeutas/edit/:id)
+                        navigate(`/terapeutas/edit/${therapist.terapeutaId}`)
                       }
                     >
                       <FiEdit />
@@ -95,17 +97,23 @@ export default function ListTherapists() {
             <FiChevronLeft />
           </button>
 
-          {Array.from({ length: totalPages }, (_, i) => (
-            <button
-              key={i + 1}
-              className={
-                currentPage === i + 1 ? styles.activePage : styles.pageNumber
-              }
-              onClick={() => setCurrentPage(i + 1)}
-            >
-              {i + 1}
-            </button>
-          ))}
+          {Array.from({ length: totalPages }, (_, i) => {
+            const pageNum = i + 1;
+            return (
+              <button
+                // Adicionado um prefixo de string estável para isolar o escopo da chave do loop
+                key={`page-btn-${pageNum}`}
+                className={
+                  currentPage === pageNum
+                    ? styles.activePage
+                    : styles.pageNumber
+                }
+                onClick={() => setCurrentPage(pageNum)}
+              >
+                {pageNum}
+              </button>
+            );
+          })}
 
           <button
             onClick={() => setCurrentPage((c) => Math.min(c + 1, totalPages))}

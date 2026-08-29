@@ -35,7 +35,7 @@
 .form {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 35px;
   width: 100%;
 }
 
@@ -82,6 +82,47 @@
   height: 30px;
 }
 
+.passwordWrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.eyeButton {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-color);
+  padding: 0;
+  z-index: 5;
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+}
+
+.eyeButton:hover {
+  opacity: 1;
+}
+
+.eyeButton svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* Ajuste fino para o container móvel herdar o alinhamento */
+@media (max-width: 768px) {
+  .eyeButton {
+    right: 12px;
+  }
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -95,10 +136,10 @@
 
 @media (max-width: 768px) {
   .card {
-    width: 90vw; 
+    width: 90vw;
     max-width: 390px;
-    min-height: auto; 
-    padding: 30px 24px; 
+    min-height: auto;
+    padding: 30px 24px;
     border-radius: 20px;
   }
 
@@ -108,11 +149,11 @@
   }
 
   .form {
-    gap: 16px; 
+    gap: 16px;
   }
 
   .card::after {
     height: 25px;
-    bottom: -15px; 
+    bottom: -15px;
   }
 }

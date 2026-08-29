@@ -1,9 +1,10 @@
 export interface Therapist {
+  id: number;
   terapeutaId: number;
   nomeCompleto: string;
+  email: string;
   numeroLicenca: string;
   especializacao: string;
-  email: string | null;
   numeroCelular: string | null;
   ativo: boolean;
 }

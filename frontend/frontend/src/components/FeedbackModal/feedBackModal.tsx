@@ -6,6 +6,9 @@ interface FeedbackModalProps {
   message: string;
   buttonText?: string;
   onClose: () => void;
+  showCancelButton?: boolean;
+  cancelButtonText?: string;
+  onCancel?: () => void;
 }
 
 export default function FeedbackModal({
@@ -14,6 +17,9 @@ export default function FeedbackModal({
   message,
   buttonText = "Concluído",
   onClose,
+  showCancelButton = false,
+  cancelButtonText = "Cancelar",
+  onCancel,
 }: FeedbackModalProps) {
   const isSuccess = type === "success";
 
@@ -51,14 +57,34 @@ export default function FeedbackModal({
         <h2 className={styles.title}>{title}</h2>
         <p className={styles.message}>{message}</p>
 
-        <button
-          className={`${styles.button} ${
-            isSuccess ? styles.buttonSuccess : styles.buttonError
-          }`}
-          onClick={onClose}
+        <div
+          style={{
+            display: "flex",
+            gap: "12px",
+            width: "100%",
+            marginTop: "15px",
+          }}
         >
-          {buttonText}
-        </button>
+          {showCancelButton && (
+            <button
+              type="button"
+              className={styles.button}
+              style={{ backgroundColor: "#94a3b8", color: "white" }}
+              onClick={onCancel}
+            >
+              {cancelButtonText}
+            </button>
+          )}
+
+          <button
+            className={`${styles.button} ${
+              isSuccess ? styles.buttonSuccess : styles.buttonError
+            }`}
+            onClick={onClose}
+          >
+            {buttonText}
+          </button>
+        </div>
       </div>
     </div>
   );

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   FiEdit,
@@ -8,24 +9,36 @@ import {
 } from "react-icons/fi";
 import { usePatients } from "../../../hooks/usePatient";
 import Input from "../../../components/Input/input";
+import FeedbackModal from "../../../components/FeedbackModal/feedBackModal";
 import styles from "../ListPatient/listPatient.module.css";
 import api from "../../../services/api";
 
 const getImageUrl = (path?: string) => {
   if (!path || path.trim() === "") {
-    return "http://via.placeholder.com/40"; 
+    return "http://via.placeholder.com/40";
   }
 
   if (path.startsWith("http") || path.startsWith("data:")) {
-    return path; 
+    return path;
   }
-  
-  const API_BASE_URL = "http://localhost:5055"; 
+
+  const API_BASE_URL = "http://localhost:5055";
   return `${API_BASE_URL}${path.startsWith("/") ? path : `/${path}`}`;
 };
 
+type ModalConfig = {
+  type: "success" | "error";
+  title: string;
+  message: string;
+  isActionConfirm?: boolean;
+} | null;
+
 export default function ListPatient() {
   const navigate = useNavigate();
+  const [patientToDelete, setPatientToDelete] = useState<
+    string | number | null
+  >(null);
+  const [modalConfig, setModalConfig] = useState<ModalConfig>(null);
 
   const {
     searchTerm,
@@ -37,15 +50,50 @@ export default function ListPatient() {
     loading,
   } = usePatients(5);
 
-  const handleDelete = async (id: string | number) => {
-    if (!confirm("Tem certeza que deseja excluir este paciente?")) return;
+  const triggerDeletePrompt = (id: string | number) => {
+    setPatientToDelete(id);
+    setModalConfig({
+      type: "error",
+      title: "Confirmar Exclusão",
+      message: "Tem certeza que deseja excluir este paciente permanentemente?",
+      isActionConfirm: true,
+    });
+  };
+
+  const handleExecuteDelete = async () => {
+    if (!patientToDelete) return;
 
     try {
-      await api.delete(`Paciente/deletar/${id}`);
-      window.location.reload();
+      await api.delete(`Paciente/deletar/${patientToDelete}`);
+
+      setModalConfig({
+        type: "success",
+        title: "Sucesso!",
+        message: "O paciente foi removido do sistema com sucesso.",
+        isActionConfirm: false,
+      });
     } catch (err) {
       console.error("Erro ao deletar paciente:", err);
-      alert("Não foi possível excluir o paciente. Tente novamente.");
+
+      setModalConfig({
+        type: "error",
+        title: "Falha na Ação",
+        message:
+          "Não foi possível excluir o paciente. Verifique sua conexão e tente novamente.",
+        isActionConfirm: false,
+      });
+    } finally {
+      setPatientToDelete(null);
+    }
+  };
+
+  const handleModalClose = () => {
+    const isSuccess =
+      modalConfig?.type === "success" && !modalConfig.isActionConfirm;
+    setModalConfig(null);
+
+    if (isSuccess) {
+      window.location.reload();
     }
   };
 
@@ -98,47 +146,56 @@ export default function ListPatient() {
             </thead>
             <tbody>
               {currentItems.map((patient: any) => {
-                const rawPhotoPath = 
-                  patient.photoUrl || 
-                  patient.fotoPerfil || 
-                  patient.FotoPerfil || 
-                  patient.foto || 
+                const rawPhotoPath =
+                  patient.photoUrl ||
+                  patient.fotoPerfil ||
+                  patient.FotoPerfil ||
+                  patient.foto ||
                   patient.caminhoFoto;
 
-                const patientName = patient.name || patient.nomeCompleto || patient.NomeCompleto;
-                const patientId = patient.id || patient.pacienteId || patient.PacienteId;
+                const patientName =
+                  patient.name || patient.nomeCompleto || patient.NomeCompleto;
+                const patientId =
+                  patient.id || patient.pacienteId || patient.PacienteId;
 
                 return (
                   <tr key={patientId}>
                     <td className={styles.patientCell}>
-                      <img 
-                        src={getImageUrl(rawPhotoPath)} 
-                        alt={patientName} 
-                      />
+                      <img src={getImageUrl(rawPhotoPath)} alt={patientName} />
                       <span>{patientName}</span>
                     </td>
-                    <td>{patient.tasksCompleted ?? patient.TarefasCompletas ?? 0}</td>
+                    <td>
+                      {patient.tasksCompleted ?? patient.TarefasCompletas ?? 0}
+                    </td>
                     <td>
                       <div className={styles.progressContainer}>
                         <div className={styles.progressBar}>
                           <div
                             className={styles.progressFill}
-                            style={{ width: `${patient.averageScore || patient.MediaAcertos || 0}%` }}
+                            style={{
+                              width: `${patient.averageScore || patient.MediaAcertos || 0}%`,
+                            }}
                           />
                         </div>
-                        <span>{patient.averageScore || patient.MediaAcertos || 0}%</span>
+                        <span>
+                          {patient.averageScore || patient.MediaAcertos || 0}%
+                        </span>
                       </div>
                     </td>
                     <td className={styles.actions}>
                       <button
                         className={styles.resultBtn}
-                        onClick={() => navigate(`/pacientes/details/${patientId}`)}
+                        onClick={() =>
+                          navigate(`/pacientes/details/${patientId}`)
+                        }
                       >
                         Resultados
                       </button>
                       <button
                         className={styles.editBtn}
-                        onClick={() => navigate(`/pacientes/create/${patientId}`)}
+                        onClick={() =>
+                          navigate(`/pacientes/create/${patientId}`)
+                        }
                         title="Editar paciente"
                       >
                         <FiEdit />
@@ -150,7 +207,7 @@ export default function ListPatient() {
                           background: "transparent",
                           marginLeft: "8px",
                         }}
-                        onClick={() => handleDelete(patientId)}
+                        onClick={() => triggerDeletePrompt(patientId)}
                         title="Excluir paciente"
                       >
                         <FiTrash2 />
@@ -191,6 +248,22 @@ export default function ListPatient() {
           </button>
         </footer>
       </div>
+      {modalConfig && (
+        <FeedbackModal
+          type={modalConfig.type}
+          title={modalConfig.title}
+          message={modalConfig.message}
+          buttonText={
+            modalConfig.isActionConfirm ? "Sim, excluir" : "Concluído"
+          }
+          cancelButtonText="Não, manter"
+          showCancelButton={modalConfig.isActionConfirm}
+          onClose={
+            modalConfig.isActionConfirm ? handleExecuteDelete : handleModalClose
+          }
+          onCancel={() => setModalConfig(null)}
+        />
+      )}
     </div>
   );
 }
