@@ -6,7 +6,12 @@ public class Opcao
 {
     [Key]
     public int OpcaoId { get; set; }
+
     public string Texto { get; set; } = string.Empty;
+
     public bool EhCorreta { get; set; }
-    public int FaseId { get; set; }
+
+    public int PerguntaId { get; set; }
+
+    public Pergunta? Pergunta { get; set; }
 }

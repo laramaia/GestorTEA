@@ -1,0 +1,173 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Italo Cubas Barros\\Desktop\\GestorTEA\\backend\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{528E3C7D-DF4E-402F-ADEF-E8095D27BBE0}|backend\\backend.csproj|c:\\users\\italo cubas barros\\desktop\\gestortea\\backend\\backend\\controllers\\perguntacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{528E3C7D-DF4E-402F-ADEF-E8095D27BBE0}|backend\\backend.csproj|solutionrelative:backend\\controllers\\perguntacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{528E3C7D-DF4E-402F-ADEF-E8095D27BBE0}|backend\\backend.csproj|c:\\users\\italo cubas barros\\desktop\\gestortea\\backend\\backend\\controllers\\jogocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{528E3C7D-DF4E-402F-ADEF-E8095D27BBE0}|backend\\backend.csproj|solutionrelative:backend\\controllers\\jogocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{528E3C7D-DF4E-402F-ADEF-E8095D27BBE0}|backend\\backend.csproj|c:\\users\\italo cubas barros\\desktop\\gestortea\\backend\\backend\\controllers\\fasecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{528E3C7D-DF4E-402F-ADEF-E8095D27BBE0}|backend\\backend.csproj|solutionrelative:backend\\controllers\\fasecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{528E3C7D-DF4E-402F-ADEF-E8095D27BBE0}|backend\\backend.csproj|c:\\users\\italo cubas barros\\desktop\\gestortea\\backend\\backend\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{528E3C7D-DF4E-402F-ADEF-E8095D27BBE0}|backend\\backend.csproj|solutionrelative:backend\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{528E3C7D-DF4E-402F-ADEF-E8095D27BBE0}|backend\\backend.csproj|c:\\users\\italo cubas barros\\desktop\\gestortea\\backend\\backend\\dtos\\fasecadastrodto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{528E3C7D-DF4E-402F-ADEF-E8095D27BBE0}|backend\\backend.csproj|solutionrelative:backend\\dtos\\fasecadastrodto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{528E3C7D-DF4E-402F-ADEF-E8095D27BBE0}|backend\\backend.csproj|c:\\users\\italo cubas barros\\desktop\\gestortea\\backend\\backend\\dtos\\perguntacadastrodto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{528E3C7D-DF4E-402F-ADEF-E8095D27BBE0}|backend\\backend.csproj|solutionrelative:backend\\dtos\\perguntacadastrodto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{528E3C7D-DF4E-402F-ADEF-E8095D27BBE0}|backend\\backend.csproj|c:\\users\\italo cubas barros\\desktop\\gestortea\\backend\\backend\\models\\opcao.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{528E3C7D-DF4E-402F-ADEF-E8095D27BBE0}|backend\\backend.csproj|solutionrelative:backend\\models\\opcao.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{528E3C7D-DF4E-402F-ADEF-E8095D27BBE0}|backend\\backend.csproj|c:\\users\\italo cubas barros\\desktop\\gestortea\\backend\\backend\\models\\fase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{528E3C7D-DF4E-402F-ADEF-E8095D27BBE0}|backend\\backend.csproj|solutionrelative:backend\\models\\fase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{528E3C7D-DF4E-402F-ADEF-E8095D27BBE0}|backend\\backend.csproj|c:\\users\\italo cubas barros\\desktop\\gestortea\\backend\\backend\\models\\pergunta.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{528E3C7D-DF4E-402F-ADEF-E8095D27BBE0}|backend\\backend.csproj|solutionrelative:backend\\models\\pergunta.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "PerguntaController.cs",
+              "DocumentMoniker": "C:\\Users\\Italo Cubas Barros\\Desktop\\GestorTEA\\backend\\backend\\Controllers\\PerguntaController.cs",
+              "RelativeDocumentMoniker": "backend\\Controllers\\PerguntaController.cs",
+              "ToolTip": "C:\\Users\\Italo Cubas Barros\\Desktop\\GestorTEA\\backend\\backend\\Controllers\\PerguntaController.cs",
+              "RelativeToolTip": "backend\\Controllers\\PerguntaController.cs",
+              "ViewState": "AgIAABgAAAAAAAAAAAAuwB8AAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-06T20:32:04.581Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "JogoController.cs",
+              "DocumentMoniker": "C:\\Users\\Italo Cubas Barros\\Desktop\\GestorTEA\\backend\\backend\\Controllers\\JogoController.cs",
+              "RelativeDocumentMoniker": "backend\\Controllers\\JogoController.cs",
+              "ToolTip": "C:\\Users\\Italo Cubas Barros\\Desktop\\GestorTEA\\backend\\backend\\Controllers\\JogoController.cs",
+              "RelativeToolTip": "backend\\Controllers\\JogoController.cs",
+              "ViewState": "AgIAALgAAAAAAAAAAAAcwMcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-06T20:31:34.562Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "FaseController.cs",
+              "DocumentMoniker": "C:\\Users\\Italo Cubas Barros\\Desktop\\GestorTEA\\backend\\backend\\Controllers\\FaseController.cs",
+              "RelativeDocumentMoniker": "backend\\Controllers\\FaseController.cs",
+              "ToolTip": "C:\\Users\\Italo Cubas Barros\\Desktop\\GestorTEA\\backend\\backend\\Controllers\\FaseController.cs",
+              "RelativeToolTip": "backend\\Controllers\\FaseController.cs",
+              "ViewState": "AgIAALkAAAAAAAAAAAAcwMgAAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-06T20:31:16.558Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "AppDbContext.cs",
+              "DocumentMoniker": "C:\\Users\\Italo Cubas Barros\\Desktop\\GestorTEA\\backend\\backend\\Data\\AppDbContext.cs",
+              "RelativeDocumentMoniker": "backend\\Data\\AppDbContext.cs",
+              "ToolTip": "C:\\Users\\Italo Cubas Barros\\Desktop\\GestorTEA\\backend\\backend\\Data\\AppDbContext.cs",
+              "RelativeToolTip": "backend\\Data\\AppDbContext.cs",
+              "ViewState": "AgIAABsAAAAAAAAAAAAYwB8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-06T20:31:07.535Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "FaseCadastroDto.cs",
+              "DocumentMoniker": "C:\\Users\\Italo Cubas Barros\\Desktop\\GestorTEA\\backend\\backend\\DTOs\\FaseCadastroDto.cs",
+              "RelativeDocumentMoniker": "backend\\DTOs\\FaseCadastroDto.cs",
+              "ToolTip": "C:\\Users\\Italo Cubas Barros\\Desktop\\GestorTEA\\backend\\backend\\DTOs\\FaseCadastroDto.cs",
+              "RelativeToolTip": "backend\\DTOs\\FaseCadastroDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAvAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-06T20:30:56.367Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "PerguntaCadastroDto.cs",
+              "DocumentMoniker": "C:\\Users\\Italo Cubas Barros\\Desktop\\GestorTEA\\backend\\backend\\DTOs\\PerguntaCadastroDto.cs",
+              "RelativeDocumentMoniker": "backend\\DTOs\\PerguntaCadastroDto.cs",
+              "ToolTip": "C:\\Users\\Italo Cubas Barros\\Desktop\\GestorTEA\\backend\\backend\\DTOs\\PerguntaCadastroDto.cs",
+              "RelativeToolTip": "backend\\DTOs\\PerguntaCadastroDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-06T20:30:43.338Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Opcao.cs",
+              "DocumentMoniker": "C:\\Users\\Italo Cubas Barros\\Desktop\\GestorTEA\\backend\\backend\\Models\\Opcao.cs",
+              "RelativeDocumentMoniker": "backend\\Models\\Opcao.cs",
+              "ToolTip": "C:\\Users\\Italo Cubas Barros\\Desktop\\GestorTEA\\backend\\backend\\Models\\Opcao.cs",
+              "RelativeToolTip": "backend\\Models\\Opcao.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-06T20:30:09.035Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Fase.cs",
+              "DocumentMoniker": "C:\\Users\\Italo Cubas Barros\\Desktop\\GestorTEA\\backend\\backend\\Models\\Fase.cs",
+              "RelativeDocumentMoniker": "backend\\Models\\Fase.cs",
+              "ToolTip": "C:\\Users\\Italo Cubas Barros\\Desktop\\GestorTEA\\backend\\backend\\Models\\Fase.cs",
+              "RelativeToolTip": "backend\\Models\\Fase.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAA6AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-06T20:29:57.986Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Pergunta.cs",
+              "DocumentMoniker": "C:\\Users\\Italo Cubas Barros\\Desktop\\GestorTEA\\backend\\backend\\Models\\Pergunta.cs",
+              "RelativeDocumentMoniker": "backend\\Models\\Pergunta.cs",
+              "ToolTip": "C:\\Users\\Italo Cubas Barros\\Desktop\\GestorTEA\\backend\\backend\\Models\\Pergunta.cs",
+              "RelativeToolTip": "backend\\Models\\Pergunta.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-06T20:29:46.366Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
