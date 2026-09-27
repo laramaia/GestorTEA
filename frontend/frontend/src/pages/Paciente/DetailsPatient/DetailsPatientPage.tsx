@@ -11,7 +11,7 @@ interface PacienteDetalhe {
   sexo: string;
   cpf: string;
   endereco: string;
-  fotoUrl: string | null;
+  fotoPerfil: string | null;
   criadoEm: string;
 }
 
@@ -37,6 +37,22 @@ const formatarDataExibicao = (dataISO: string): string => {
   return `${dia} de ${nomesMeses[mes - 1]} de ${ano}`;
 };
 
+const SEXO_LABELS: Record<string, string> = {
+  "1": "Feminino",
+  "2": "Masculino",
+};
+
+const formatarSexoExibicao = (
+  sexo: string | number | null | undefined,
+): string => {
+  if (sexo === null || sexo === undefined || sexo === "") {
+    return "Não informado";
+  }
+
+  const chave = String(sexo).trim();
+  return SEXO_LABELS[chave] ?? "Não informado";
+};
+
 export default function DetailsPatient() {
   const navigate = useNavigate();
   const { id } = useParams();
@@ -46,15 +62,16 @@ export default function DetailsPatient() {
   const [patient, setPatient] = useState<PacienteDetalhe | null>(null);
   const [loading, setLoading] = useState(true);
 
+  const [imgError, setImgError] = useState(false);
+
   useEffect(() => {
     async function fetchPaciente() {
       try {
-        const response = await api.get("/Paciente/listar");
-        const lista: PacienteDetalhe[] = response.data;
-        const encontrado = lista.find((p) => String(p.pacienteId) === id);
-        setPatient(encontrado ?? null);
+        const response = await api.get(`Paciente/${id}`);
+        setPatient(response.data ?? null);
       } catch (err) {
         console.error("Erro ao buscar paciente:", err);
+        setPatient(null);
       } finally {
         setLoading(false);
       }
@@ -73,11 +90,14 @@ export default function DetailsPatient() {
       </p>
     );
 
-  const primeiroNome = patient.nomeCompleto.split(" ")[0];
   const dataNasc = formatarDataExibicao(patient.dataNascimento);
+  const sexoExibicao = formatarSexoExibicao(patient.sexo);
 
-  const fotoCompleta = patient.fotoUrl
-    ? `${api.defaults.baseURL}${patient.fotoUrl}`
+  const fotoCompleta = patient.fotoPerfil
+    ? patient.fotoPerfil.startsWith("http") ||
+      patient.fotoPerfil.startsWith("data:")
+      ? patient.fotoPerfil
+      : `${api.defaults.baseURL}${patient.fotoPerfil}`
     : null;
 
   return (
@@ -93,11 +113,12 @@ export default function DetailsPatient() {
         <div className={styles.detail_layout}>
           <aside className={styles.profile_sidebar}>
             <div className={styles.avatar_container}>
-              {fotoCompleta ? (
+              {fotoCompleta && !imgError ? (
                 <img
                   src={fotoCompleta}
                   alt={patient.nomeCompleto}
                   className={styles.avatar_img}
+                  onError={() => setImgError(true)}
                 />
               ) : (
                 <svg
@@ -114,9 +135,6 @@ export default function DetailsPatient() {
               )}
             </div>
             <h2 className={styles.profile_name}>{patient.nomeCompleto}</h2>
-            <p className={styles.profile_description}>
-              {primeiroNome} está cadastrado no sistema.
-            </p>
 
             <div className={styles.profile_info_group}>
               <h4>Data de nascimento</h4>
@@ -125,7 +143,7 @@ export default function DetailsPatient() {
 
             <div className={styles.profile_info_group}>
               <h4>Sexo</h4>
-              <p>{patient.sexo || "Não informado"}</p>
+              <p>{sexoExibicao}</p>
             </div>
 
             <div className={styles.profile_info_group}>
@@ -139,9 +157,10 @@ export default function DetailsPatient() {
             </div>
 
             <button
+              type="button"
               className={styles.edit_profile_btn}
               onClick={() =>
-                navigate(`/pacientes/create/${patient.pacienteId}`)
+                navigate(`/pacientes/editar/${patient.pacienteId}`)
               }
             >
               Editar perfil
@@ -183,7 +202,8 @@ export default function DetailsPatient() {
                       className={styles.primary_btn}
                       onClick={() => {
                         window.location.href = `http://localhost:5173/?pacienteId=${patient.pacienteId}`;
-                      }}>
+                      }}
+                    >
                       Iniciar atividade
                     </button>
                   </div>

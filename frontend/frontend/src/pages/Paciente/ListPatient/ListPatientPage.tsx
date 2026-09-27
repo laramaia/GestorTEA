@@ -194,7 +194,7 @@ export default function ListPatient() {
                       <button
                         className={styles.editBtn}
                         onClick={() =>
-                          navigate(`/pacientes/create/${patientId}`)
+                          navigate(`/pacientes/editar/${patientId}`)
                         }
                         title="Editar paciente"
                       >

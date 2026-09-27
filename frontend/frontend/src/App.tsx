@@ -10,6 +10,7 @@ import EditTherapist from "./pages/Terapeuta/EditTherapist/EditTherapistPage";
 import CreatePatientPage from "./pages/Paciente/CreatePatient/CreatePatientPage";
 import DetailsPatientPage from "./pages/Paciente/DetailsPatient/DetailsPatientPage";
 import CreatePhasePage from "./pages/Fase/CreatePhase/CreatePhasePage";
+import EditPatientPage from "./pages/Paciente/EditPatient/EditPatientPage";
 import Game from "./pages/Game/Game";
 import ListPhasePage from "./pages/Fase/ListPhase/ListPhasePage";
 import ProtectedRoute from "./components/Routes/protectedRoute";
@@ -58,6 +59,16 @@ function App() {
               <ProtectedRoute allowedRoles={["Admin", "Terapeuta"]}>
                 <Layout>
                   <DetailsPatientPage />
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/pacientes/editar/:id"
+            element={
+              <ProtectedRoute allowedRoles={["Admin", "Terapeuta"]}>
+                <Layout>
+                  <EditPatientPage />
                 </Layout>
               </ProtectedRoute>
             }

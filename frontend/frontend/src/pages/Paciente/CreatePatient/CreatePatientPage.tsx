@@ -10,6 +10,7 @@ interface FormErrors {
   nomeCompleto?: string;
   dataNascimento?: string;
   cpf?: string;
+  foto?: string;
 }
 
 type Feedback = { type: "success" | "error"; message: string } | null;
@@ -71,7 +72,39 @@ export default function CriarPacientes() {
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
+
+    if (fieldErrors.foto) {
+      setFieldErrors((prev) => ({ ...prev, foto: undefined }));
+    }
+
     if (file) {
+      const TIPOS_PERMITIDOS = ["image/jpeg", "image/jpg", "image/png"];
+      const TAMANHO_MAXIMO_MB = 5;
+      const MAX_BYTES = TAMANHO_MAXIMO_MB * 1024 * 1024;
+
+      if (!TIPOS_PERMITIDOS.includes(file.type)) {
+        setFeedback({
+          type: "error",
+          message:
+            "Não foi possível carregar a foto. Formato inválido. Por favor, selecione apenas imagens JPG ou PNG.",
+        });
+        e.target.value = "";
+        setSelectedFile(null);
+        setImagePreview(null);
+        return;
+      }
+
+      if (file.size > MAX_BYTES) {
+        setFeedback({
+          type: "error",
+          message: `Não foi possível carregar a foto. A imagem é muito grande (limite de ${TAMANHO_MAXIMO_MB} MB).`,
+        });
+        e.target.value = "";
+        setSelectedFile(null);
+        setImagePreview(null);
+        return;
+      }
+
       setSelectedFile(file);
 
       const reader = new FileReader();
@@ -159,9 +192,10 @@ export default function CriarPacientes() {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
+    // Mantém o erro de foto se existir, e une com os outros erros
     const errors = validarFormulario();
-    if (Object.keys(errors).length > 0) {
-      setFieldErrors(errors);
+    if (Object.keys(errors).length > 0 || fieldErrors.foto) {
+      setFieldErrors((prev) => ({ ...prev, ...errors }));
       return;
     }
 
@@ -317,7 +351,7 @@ export default function CriarPacientes() {
               <span className={styles.photo_label}>Foto do paciente</span>
               <input
                 type="file"
-                accept="image/*"
+                accept=".jpg, .jpeg, .png" // Atualizado para filtrar arquivos
                 ref={fileInputRef}
                 onChange={handleImageChange}
                 style={{ display: "none" }}
@@ -346,6 +380,20 @@ export default function CriarPacientes() {
                   </svg>
                 )}
               </div>
+              {/* Exibe o erro de foto abaixo do placeholder */}
+              {fieldErrors.foto && (
+                <span
+                  style={{
+                    color: "red",
+                    fontSize: "13px",
+                    marginTop: "8px",
+                    display: "block",
+                    textAlign: "center",
+                  }}
+                >
+                  {fieldErrors.foto}
+                </span>
+              )}
             </div>
           </div>
 
