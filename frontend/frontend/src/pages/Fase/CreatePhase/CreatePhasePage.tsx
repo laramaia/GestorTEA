@@ -5,35 +5,58 @@ import { FiX } from "react-icons/fi";
 import styles from "./createPhase.module.css";
 import api from "../../../services/api";
 
-interface PhaseForm {
+interface QuestionForm {
   enunciado: string;
   alternativas: string[];
-  respostaCorreta: number | null; 
+  respostaCorreta: number | null;
+}
+
+interface PhaseForm {
+  nome: string;
+  perguntas: QuestionForm[];
 }
 
 export default function CreatePhasePage() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [erro, setErro] = useState<string | null>(null);
-
   const [formData, setFormData] = useState<PhaseForm>({
-    enunciado: "",
-    alternativas: ["", "", ""], 
-    respostaCorreta: null,
+    nome: "",
+    perguntas: Array.from({ length: 3 }, () => ({
+      enunciado: "",
+      alternativas: ["", "", ""],
+      respostaCorreta: null,
+    })),
   });
 
-  const handleEnunciadoChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, enunciado: e.target.value });
+  const handleNomeChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setFormData((prev) => ({ ...prev, nome: e.target.value }));
   };
 
-  const handleAlternativaChange = (index: number, value: string) => {
-    const novasAlternativas = [...formData.alternativas];
-    novasAlternativas[index] = value;
-    setFormData({ ...formData, alternativas: novasAlternativas });
+  const handleEnunciadoQuestionChange = (qIndex: number, value: string) => {
+    setFormData((prev) => {
+      const novasPerguntas = [...prev.perguntas];
+      novasPerguntas[qIndex] = { ...novasPerguntas[qIndex], enunciado: value };
+      return { ...prev, perguntas: novasPerguntas };
+    });
   };
 
-  const handleSelectCorrect = (index: number) => {
-    setFormData({ ...formData, respostaCorreta: index });
+  const handleAlternativaChange = (qIndex: number, altIndex: number, value: string) => {
+    setFormData((prev) => {
+      const novasPerguntas = [...prev.perguntas];
+      const novasAlternativas = [...novasPerguntas[qIndex].alternativas];
+      novasAlternativas[altIndex] = value;
+      novasPerguntas[qIndex] = { ...novasPerguntas[qIndex], alternativas: novasAlternativas };
+      return { ...prev, perguntas: novasPerguntas };
+    });
+  };
+
+  const handleSelectCorrect = (qIndex: number, altIndex: number) => {
+    setFormData((prev) => {
+      const novasPerguntas = [...prev.perguntas];
+      novasPerguntas[qIndex] = { ...novasPerguntas[qIndex], respostaCorreta: altIndex };
+      return { ...prev, perguntas: novasPerguntas };
+    });
   };
 
   const handleSubmit = async (e: FormEvent) => {
@@ -41,44 +64,61 @@ export default function CreatePhasePage() {
     setLoading(true);
     setErro(null);
 
-    if (!formData.enunciado.trim()) {
-      setErro("Por favor, preencha o enunciado.");
+    if (!formData.nome.trim()) {
+      setErro("Por favor, preencha o nome da fase.");
       setLoading(false);
       return;
     }
-    if (formData.alternativas.some((alt) => !alt.trim())) {
-      setErro("Por favor, preencha todas as 3 alternativas.");
-      setLoading(false);
-      return;
-    }
-    if (formData.respostaCorreta === null) {
-      setErro("Por favor, selecione qual é a alternativa correta.");
-      setLoading(false);
-      return;
+
+    for (let i = 0; i < formData.perguntas.length; i++) {
+      const p = formData.perguntas[i];
+      if (!p.enunciado.trim()) {
+        setErro(`Por favor, preencha o enunciado da Pergunta ${i + 1}.`);
+        setLoading(false);
+        return;
+      }
+      if (p.alternativas.some((alt) => !alt.trim())) {
+        setErro(`Por favor, preencha todas as alternativas da Pergunta ${i + 1}.`);
+        setLoading(false);
+        return;
+      }
+      if (p.respostaCorreta === null) {
+        setErro(`Por favor, selecione a resposta correta da Pergunta ${i + 1}.`);
+        setLoading(false);
+        return;
+      }
     }
 
     try {
-      const opcoesMapeadas = formData.alternativas.map((texto, index) => ({
-        texto: texto,                                 
-        ehCorreta: index === formData.respostaCorreta,   
-      }));
+      // Como o backend usa [FromForm], montamos o FormData corretamente
+      const data = new FormData();
+      data.append("Nome", formData.nome);
+      data.append("Ordem", "0");
+      data.append("TotalEstrelas", "3");
+      data.append("EstrelasParaAvancar", "1");
 
-      const payload = {
-        enunciado: formData.enunciado,                 
-        opcoes: opcoesMapeadas,                          
-        totalEstrelas: 3,
-        estrelasParaAvancar: 1,
-        nome: "", 
-        ilustracao: "",
-        ordem: 0
-      };
+      formData.perguntas.forEach((p, qIndex) => {
+        data.append(`Perguntas[${qIndex}].Enunciado`, p.enunciado);
+        data.append(`Perguntas[${qIndex}].Ordem`, String(qIndex + 1));
 
-      await api.post("/Fase/inserir", payload);
+        p.alternativas.forEach((altTexto, altIndex) => {
+          data.append(`Perguntas[${qIndex}].Opcoes[${altIndex}].Texto`, altTexto);
+          data.append(`Perguntas[${qIndex}].Opcoes[${altIndex}].EhCorreta`, String(altIndex === p.respostaCorreta));
+        });
+      });
+
+      await api.post("/Fase/inserir", data, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
       navigate("/fases");
     } catch (err: any) {
       console.error("Erro ao cadastrar fase:", err.response?.data || err);
       setErro(
-        err.response?.data?.mensagem || 
+        err.response?.data?.mensagem ||
+        err.response?.data?.message ||
         "Erro ao cadastrar a fase. Verifique os dados e tente novamente."
       );
     } finally {
@@ -89,7 +129,6 @@ export default function CreatePhasePage() {
   return (
     <div className={styles.modal_overlay}>
       <div className={styles.add_patient_modal}>
-        
         <button 
           type="button" 
           className={styles.close_btn} 
@@ -104,48 +143,69 @@ export default function CreatePhasePage() {
         {erro && <p className={styles.error_message}>{erro}</p>}
 
         <form onSubmit={handleSubmit} className={styles.modal_content}>
-          
           <div className={styles.form_group}>
-            <label htmlFor="enunciado">Enunciado do Desafio</label>
+            <label htmlFor="nomeFase">Nome da Fase</label>
             <input
-              id="enunciado"
+              id="nomeFase"
               type="text"
-              placeholder="Digite a pergunta do desafio..."
-              value={formData.enunciado}
-              onChange={handleEnunciadoChange}
+              placeholder="Digite o nome da fase (ex: Fase 1)..."
+              value={formData.nome}
+              onChange={handleNomeChange}
               disabled={loading}
             />
           </div>
 
-          <div className={styles.alternatives_section}>
-            <span className={styles.alternatives_title}>
-              Alternativas (Marque a correta)
-            </span>
-            
-            <div className={styles.alternatives_list}>
-              {formData.alternativas.map((alternativa, index) => (
-                <div key={index} className={styles.alternative_item}>
-                  <input
-                    type="radio"
-                    name="resposta-correta" 
-                    className={styles.radio_input}
-                    checked={formData.respostaCorreta === index}
-                    onChange={() => handleSelectCorrect(index)}
-                    disabled={loading}
-                  />
+          <hr style={{ borderColor: "rgba(255, 255, 255, 0.1)", margin: "16px 0" }} />
 
-                  <input
-                    type="text"
-                    className={styles.alternative_input}
-                    placeholder={`Alternativa ${index + 1}`}
-                    value={alternativa}
-                    onChange={(e) => handleAlternativaChange(index, e.target.value)}
-                    disabled={loading}
-                  />
+          {formData.perguntas.map((pergunta, qIndex) => (
+            <div key={qIndex} style={{ marginBottom: "24px" }}>
+              <h3 style={{ color: "#a5a1ff", marginBottom: "12px", fontSize: "1.1rem" }}>
+                Pergunta {qIndex + 1}
+              </h3>
+
+              <div className={styles.form_group}>
+                <label htmlFor={`enunciado-${qIndex}`}>Enunciado do Desafio</label>
+                <input
+                  id={`enunciado-${qIndex}`}
+                  type="text"
+                  placeholder="Digite a pergunta do desafio..."
+                  value={pergunta.enunciado}
+                  onChange={(e) => handleEnunciadoQuestionChange(qIndex, e.target.value)}
+                  disabled={loading}
+                />
+              </div>
+
+              <div className={styles.alternatives_section}>
+                <span className={styles.alternatives_title}>
+                  Alternativas (Marque a correta)
+                </span>
+                
+                <div className={styles.alternatives_list}>
+                  {pergunta.alternativas.map((alternativa, altIndex) => (
+                    <div key={altIndex} className={styles.alternative_item}>
+                      <input
+                        type="radio"
+                        name={`resposta-correta-${qIndex}`} 
+                        className={styles.radio_input}
+                        checked={pergunta.respostaCorreta === altIndex}
+                        onChange={() => handleSelectCorrect(qIndex, altIndex)}
+                        disabled={loading}
+                      />
+
+                      <input
+                        type="text"
+                        className={styles.alternative_input}
+                        placeholder={`Alternativa ${altIndex + 1}`}
+                        value={alternativa}
+                        onChange={(e) => handleAlternativaChange(qIndex, altIndex, e.target.value)}
+                        disabled={loading}
+                      />
+                    </div>
+                  ))}
                 </div>
-              ))}
+              </div>
             </div>
-          </div>
+          ))}
 
           <div className={styles.modal_footer}>
             <button 
@@ -159,7 +219,6 @@ export default function CreatePhasePage() {
               {loading ? "Salvando..." : "Salvar"}
             </button>
           </div>
-
         </form>
       </div>
     </div>

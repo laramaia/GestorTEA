@@ -15,14 +15,18 @@ interface Opcao {
   opcaoId?: number;
   texto: string;
   ehCorreta: boolean;
-  Texto?: string;    
-  EhCorreta?: boolean;
+}
+
+interface Pergunta {
+  perguntaId?: number;
+  enunciado: string;
+  opcoes: Opcao[];
 }
 
 interface Phase {
   faseId: number;
-  enunciado: string;
-  opcoes: Opcao[];
+  nome: string;
+  perguntas: Pergunta[];
   totalEstrelas: number;
   estrelasParaAvancar: number;
 }
@@ -39,7 +43,7 @@ export default function ListPhasePage() {
     try {
       setLoading(true);
       const response = await api.get("/Fase/listar");
-console.log("Fases vindas do C#:", response.data);
+      console.log("Fases vindas do C#:", response.data);
       
       if (Array.isArray(response.data)) {
         setPhases(response.data);
@@ -70,8 +74,8 @@ console.log("Fases vindas do C#:", response.data);
   };
 
   const filteredPhases = phases.filter((phase) => {
-    const txtEnunciado = phase.enunciado ?? "";
-    return txtEnunciado.toLowerCase().includes(searchTerm.toLowerCase());
+    const nomeFase = phase.nome ?? "";
+    return nomeFase.toLowerCase().includes(searchTerm.toLowerCase());
   });
 
   const totalPages = Math.ceil(filteredPhases.length / itemsPerPage);
@@ -126,25 +130,17 @@ console.log("Fases vindas do C#:", response.data);
           <table className={styles.table}>
             <thead>
               <tr>
-                <th style={{ width: "40%" }}>Enunciado</th>
-                <th style={{ width: "35%" }}>Resposta Correta</th>
-                <th style={{ width: "10%", textAlign: "center" }}>Nº Alts</th>
+                <th style={{ width: "40%" }}>Nome da Fase</th>
+                <th style={{ width: "35%" }}>Qtd. Perguntas</th>
+                <th style={{ width: "10%", textAlign: "center" }}>Estrelas</th>
                 <th style={{ width: "15%" }}></th>
               </tr>
             </thead>
             <tbody>
               {currentItems.map((phase) => {
                 const id = phase.faseId;
-                const enunciado = phase.enunciado ?? "Sem enunciado";
-                const alts = phase.opcoes ?? [];
-
-                const opcaoCorretaObj = alts.find(
-                  (opt) => opt.ehCorreta === true || opt.EhCorreta === true
-                );
-
-                const corretaTexto = opcaoCorretaObj 
-                  ? (opcaoCorretaObj.texto ?? opcaoCorretaObj.Texto) 
-                  : null;
+                const nome = phase.nome || `Fase ${id}`;
+                const qtdPerguntas = phase.perguntas?.length || 0;
 
                 return (
                   <tr key={id}>
@@ -170,24 +166,18 @@ console.log("Fases vindas do C#:", response.data);
                           maxWidth: "320px",
                           display: "inline-block",
                         }}
-                        title={enunciado}
+                        title={nome}
                       >
-                        {enunciado}
+                        {nome}
                       </span>
                     </td>
                     <td>
-                      {corretaTexto ? (
-                        <span style={{ color: "#4caf50", fontWeight: "500" }}>
-                          ✓ {corretaTexto}
-                        </span>
-                      ) : (
-                        <span style={{ color: "#ff6b6b", fontSize: "0.9rem" }}>
-                          ⚠ Sem resposta correta
-                        </span>
-                      )}
+                      <span style={{ color: "#a5a1ff", fontWeight: "500" }}>
+                        {qtdPerguntas} perguntas cadastradas
+                      </span>
                     </td>
                     <td style={{ textAlign: "center" }}>
-                      {alts.length}
+                      {phase.totalEstrelas || 3}
                     </td>
                     <td className={styles.actions}>
                       <button
